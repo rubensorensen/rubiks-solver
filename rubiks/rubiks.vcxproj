@@ -148,12 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Cube.cpp" />
-    <ClCompile Include="src\Face.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Cube.h" />
-    <ClInclude Include="src\Face.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
