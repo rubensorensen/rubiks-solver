@@ -5,28 +5,38 @@ class Cube {
 public:
 	Cube() = default;
 
-	static void showSolved();
-	void printVals();
+	template <class N>
+	N Rotr(N n, unsigned int d);
 	
+	template <class N>
+	N Rotl(N n, unsigned int d);
+
+	void F();
+	void Fp();
+	void F2();
+
+	void PrintVals();
+	void ShowCube();
+	char GetColor(unsigned long num);
 
 private:
 
 	/*	COLOR SCHEME
 	 *
-	 *	YELLOW	:	0
-	 *	WHITE	:	1
-	 *	GREEN	:	2
-	 *	BLUE	:	3
-	 *	ORANGE	:	4
-	 *	RED		:	5
+	 *	YELLOW	:	0	0000
+	 *	WHITE	:	1	0001
+	 *	GREEN	:	2	0010
+	 *	BLUE	:	3	0011
+	 *	ORANGE	:	4	0100
+	 *	RED		:	5	0101
 	 */
 	
-	unsigned long up { 0x00000000 };
-	unsigned long down { 0x11111111 };
-	unsigned long front { 0x22222222 };
-	unsigned long back { 0x33333333 };
-	unsigned long right { 0x44444444 };
-	unsigned long left { 0x55555555 };
+	unsigned long Up { 0x00000000 };
+	unsigned long Down { 0x11111111 };
+	unsigned long Front { 0x22222222 };
+	unsigned long Back { 0x33333333 };
+	unsigned long Right { 0x44444444 };
+	unsigned long Left { 0x55555555 };
 	
 };
 
