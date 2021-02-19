@@ -15,6 +15,9 @@ public:
 	void Fp();
 	void F2();
 
+	void B();
+	void Bp();
+
 	void PrintVals();
 	void ShowCube();
 	char GetColor(unsigned long num);

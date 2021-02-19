@@ -47,6 +47,18 @@ void Cube::F2() {
 	this->Front = Rotr(this->Front, 16);
 }
 
+void Cube::B() {
+	unsigned long tmp { this->Up };
+	this->Up = (this->Up & 0x000FFFFF) | Rotl((this->Right & 0x00FFF000), 8);
+	this->Right = (this->Right & 0xFF000FFF) | Rotl((this->Down & 0x0000FFF0), 8);
+	this->Down = (this->Down & 0xFFFF000F) | Rotl((this->Left & 0xF00000FF), 8);
+	this->Left = (this->Left & 0x0FFFFF00) | Rotl((tmp & 0xFFF00000), 8);
+	this->Back = Rotl(this->Back, 8);
+}
+
+void Cube::Bp() {
+}
+
 
 void Cube::ShowCube() {
 	std::cout << "        " << GetColor(this->Up >> 28) << " " << GetColor(this->Up >> 24 & 0x0F) << " " << GetColor(this->Up >> 20 & 0x00F) << "  " << std::endl;
