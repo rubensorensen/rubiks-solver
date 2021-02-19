@@ -15,12 +15,15 @@ N Cube::Rotl(N n, unsigned int d) {
 	return n << d | n >> (sizeof(n) * 8 - d);
 }
 
+
+
 /****************************\
  ****   CUBE ROTATIONS   ****
 \****************************/
 
+//	Front Quarter-Turn Clockwise
 void Cube::F() {
-	const unsigned long tmp { this->Up };
+	const unsigned long tmp{ this->Up };
 	this->Up = (this->Up & 0xFFFF000F) | Rotr((this->Left & 0x00FFF000), 8);
 	this->Left = (this->Left & 0xFF000FFF) | Rotr((this->Down & 0xFFF00000), 8);
 	this->Down = (this->Down & 0x000FFFFF) | Rotr((this->Right & 0xF00000FF), 8);
@@ -28,8 +31,9 @@ void Cube::F() {
 	this->Front = Rotr(this->Front, 8);
 }
 
-void Cube::Fp() {
-	const unsigned long tmp { this->Up };
+//	Front Quarter-Turn Anti-Clockwise
+void Cube::Fprime() {
+	const unsigned long tmp{ this->Up };
 	this->Up = (this->Up & 0xFFFF000F) | Rotl((this->Right & 0xF00000FF), 8);
 	this->Right = (this->Right & 0x0FFFFF00) | Rotl((this->Down & 0xFFF00000), 8);
 	this->Down = (this->Down & 0x000FFFFF) | Rotl((this->Left & 0x00FFF000), 8);
@@ -37,8 +41,9 @@ void Cube::Fp() {
 	this->Front = Rotl(this->Front, 8);
 }
 
+//	Front Half-Turn
 void Cube::F2() {
-	unsigned long tmp { this->Up };
+	unsigned long tmp{ this->Up };
 	this->Up = (this->Up & 0xFFFF000F) | Rotr((this->Down & 0xFFF00000), 16);
 	this->Down = (this->Down & 0x000FFFFF) | Rotr((tmp & 0x0000FFF0), 16);
 	tmp = { this->Right };
@@ -47,16 +52,159 @@ void Cube::F2() {
 	this->Front = Rotr(this->Front, 16);
 }
 
+//	Back Quarter-Turn Clockwise
 void Cube::B() {
-	unsigned long tmp { this->Up };
+	const unsigned long tmp{ this->Up };
 	this->Up = (this->Up & 0x000FFFFF) | Rotl((this->Right & 0x00FFF000), 8);
 	this->Right = (this->Right & 0xFF000FFF) | Rotl((this->Down & 0x0000FFF0), 8);
 	this->Down = (this->Down & 0xFFFF000F) | Rotl((this->Left & 0xF00000FF), 8);
 	this->Left = (this->Left & 0x0FFFFF00) | Rotl((tmp & 0xFFF00000), 8);
+	this->Back = Rotr(this->Back, 8);
+}
+
+//	Back Quarter-Turn Anti-Clockwise
+void Cube::Bprime() {
+	const unsigned long tmp{ this->Up };
+	this->Up = (this->Up & 0x000FFFFF) | Rotr((this->Left & 0xF00000FF), 8);
+	this->Left = (this->Left & 0x0FFFFF00) | Rotr((this->Down & 0x0000FFF0), 8);
+	this->Down = (this->Down & 0xFFFF000F) | Rotr((this->Right & 0x00FFF000), 8);
+	this->Right = (this->Right & 0xFF000FFF) | Rotr((tmp & 0xFFF00000), 8);
 	this->Back = Rotl(this->Back, 8);
 }
 
-void Cube::Bp() {
+//	Back Half-Turn
+void Cube::B2() {
+	unsigned long tmp{ this->Up };
+	this->Up = (this->Up & 0x000FFFFF) | Rotl((this->Down & 0x0000FFF0), 16);
+	this->Down = (this->Down & 0xFFFF000F) | Rotl((tmp & 0xFFF00000), 16);
+	tmp = { this->Left };
+	this->Left = (this->Left & 0x0FFFFF00) | Rotl((this->Right & 0x00FFF000), 16);
+	this->Right = (this->Right & 0xFF000FFF) | Rotl((tmp & 0xF00000FF), 16);
+	this->Back = Rotr(this->Back, 16);
+}
+
+//	Up Quarter-Turn Clockwise
+void Cube::U() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x000FFFFF) | (this->Right & 0xFFF00000);
+	this->Right = (this->Right & 0x000FFFFF) | (this->Back & 0xFFF00000);
+	this->Back = (this->Back & 0x000FFFFF) | (this->Left & 0xFFF00000);
+	this->Left = (this->Left & 0x000FFFFF) | (tmp & 0xFFF00000);
+	this->Up = Rotr(this->Up, 8);
+}
+
+//	Up Quarter-Turn Anti-Clockwise
+void Cube::Uprime() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x000FFFFF) | (this->Left & 0xFFF00000);
+	this->Left = (this->Left & 0x000FFFFF) | (this->Back & 0xFFF00000);
+	this->Back = (this->Back & 0x000FFFFF) | (this->Right & 0xFFF00000);
+	this->Right = (this->Right & 0x000FFFFF) | (tmp & 0xFFF00000);
+	this->Up = Rotl(this->Up, 8);
+}
+
+//	Up Half-Turn
+void Cube::U2() {
+	unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x000FFFFF) | (this->Back & 0xFFF00000);
+	this->Back = (this->Back & 0x000FFFFF) | (tmp & 0xFFF00000);
+	tmp = { this->Left };
+	this->Left = (this->Left & 0x000FFFFF) | (this->Right & 0xFFF00000);
+	this->Right = (this->Right & 0x000FFFFF) | (tmp & 0xFFF00000);
+	this->Up = Rotr(this->Up, 16);
+}
+
+//	Down Quarter-Turn Clockwise
+void Cube::D() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFFFF000F) | (this->Left & 0x0000FFF0);
+	this->Left = (this->Left & 0xFFFF000F) | (this->Back & 0x0000FFF0);
+	this->Back = (this->Back & 0xFFFF000F) | (this->Right & 0x0000FFF0);
+	this->Right = (this->Right & 0xFFFF000F) | (tmp & 0x0000FFF0);
+	this->Down = Rotr(this->Down, 8);
+}
+
+//	Down Quarter-Turn Anti-Clockwise
+void Cube::Dprime() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFFFF000F) | (this->Right & 0x0000FFF0);
+	this->Right = (this->Right & 0xFFFF000F) | (this->Back & 0x0000FFF0);
+	this->Back = (this->Back & 0xFFFF000F) | (this->Left & 0x0000FFF0);
+	this->Left = (this->Left & 0xFFFF000F) | (tmp & 0x0000FFF0);
+	this->Down = Rotl(this->Down, 8);
+}
+
+//	Down Half-Turn
+void Cube::D2() {
+	unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFFFF000F) | (this->Back & 0x0000FFF0);
+	this->Back = (this->Back & 0xFFFF000F) | (tmp & 0x0000FFF0);
+	tmp = { this->Left };
+	this->Left = (this->Left & 0xFFFF000F) | (this->Right & 0x0000FFF0);
+	this->Right = (this->Right & 0xFFFF000F) | (tmp & 0x0000FFF0);
+	this->Down = Rotr(this->Down, 16);
+}
+
+// Right Quarter-Turn Clockwise
+void Cube::R() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFF000FFF) | (this->Down & 0x00FFF000);
+	this->Down = (this->Down & 0xFF000FFF) | Rotr((this->Back & 0xF00000FF), 16);
+	this->Back = (this->Back & 0x0FFFFF00) | Rotr((this->Up & 0x00FFF000), 16);
+	this->Up = (this->Up & 0xFF000FFF) | (tmp & 0x00FFF000);
+	this->Right = Rotr(this->Right, 8);
+}
+
+//	Right Quarter-Turn Anti-Clockwise
+void Cube::Rprime() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFF000FFF) | (this->Up & 0x00FFF000);
+	this->Up = (this->Up & 0xFF000FFF) | Rotl((this->Back & 0xF00000FF), 16);
+	this->Back = (this->Back & 0x0FFFFF00) | Rotl((this->Down & 0x00FFF000), 16);
+	this->Down = (this->Down & 0xFF000FFF) | (tmp & 0x00FFF000);
+	this->Right = Rotl(this->Right, 8);
+}
+
+//	Right Half-Turn
+void Cube::R2() {
+	unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0xFF000FFF) | Rotr((this->Back & 0xF00000FF), 16);
+	this->Back = (this->Back & 0x0FFFFF00) | Rotr((tmp & 0x00FFF000), 16);
+	tmp = this->Up;
+	this->Up = (this->Up & 0xFF000FFF) | (this->Down & 0x00FFF000);
+	this->Down = (this->Down & 0xFF000FFF) | (tmp & 0x00FFF000);
+	this->Right = Rotr(this->Right, 16);
+}
+
+//	Left Quarter-Turn Clockwise
+void Cube::L() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x0FFFFF00) | (this->Up & 0xF00000FF);
+	this->Up = (this->Up & 0x0FFFFF00) | Rotr((this->Back & 0x00FFF000), 16);
+	this->Back = (this->Back & 0xFF000FFF) | Rotr((this->Down & 0xF00000FF), 16);
+	this->Down = (this->Down & 0x0FFFFF00) | (tmp & 0xF00000FF);
+	this->Left = Rotr(this->Left, 8);
+}
+
+// Left Quarter-Turn Anti-Clockwise
+void Cube::Lprime() {
+	const unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x0FFFFF00) | (this->Down & 0xF00000FF);
+	this->Down = (this->Down & 0x0FFFFF00) | Rotl((this->Back & 0x00FFF000), 16);
+	this->Back = (this->Back & 0xFF000FFF) | Rotl((this->Up & 0xF00000FF), 16);
+	this->Up = (this->Up & 0x0FFFFF00) | (tmp & 0xF00000FF);
+	this->Left = Rotl(this->Left, 8);
+}
+
+//Left Half-Turn
+void Cube::L2() {
+	unsigned long tmp{ this->Front };
+	this->Front = (this->Front & 0x0FFFFF00) | Rotr((this->Back & 0x00FFF000), 16);
+	this->Back = (this->Back & 0xFF000FFF) | Rotr((tmp & 0xF00000FF), 16);
+	tmp = { this->Up };
+	this->Up = (this->Up & 0x0FFFFF00) | (this->Down & 0xF00000FF);
+	this->Down = (this->Down & 0x0FFFFF00) | (tmp & 0xF00000FF);
+	this->Left = Rotr(this->Left, 16);
 }
 
 

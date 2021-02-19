@@ -5,24 +5,18 @@
 
 int main(void) {
 	Cube* cube = new Cube();
-	cube->PrintVals();
 	cube->ShowCube();
-	cube->B();
-	std::cout << std::endl;
-	cube->PrintVals();
+	std::cout << "---------------------------\n" << std::endl;
+
+	cube->R2();
+	cube->L2();
+	cube->F2();
+	cube->B2();
+	cube->U2();
+	cube->D2();
+	
 	cube->ShowCube();
-	cube->B();
-	std::cout << std::endl;
-	cube->PrintVals();
-	cube->ShowCube();
-	cube->B();
-	std::cout << std::endl;
-	cube->PrintVals();
-	cube->ShowCube();
-	cube->B();
-	std::cout << std::endl;
-	cube->PrintVals();
-	cube->ShowCube();
+
 	
 	std::cin.get();
 	delete cube;

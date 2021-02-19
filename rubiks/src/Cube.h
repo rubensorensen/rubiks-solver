@@ -12,11 +12,28 @@ public:
 	N Rotl(N n, unsigned int d);
 
 	void F();
-	void Fp();
+	void Fprime();
 	void F2();
 
 	void B();
-	void Bp();
+	void Bprime();
+	void B2();
+
+	void U();
+	void Uprime();
+	void U2();
+
+	void D();
+	void Dprime();
+	void D2();
+
+	void R();
+	void Rprime();
+	void R2();
+
+	void L();
+	void Lprime();
+	void L2();
 
 	void PrintVals();
 	void ShowCube();
