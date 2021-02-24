@@ -50,6 +50,7 @@ private:
 	 *	ORANGE	:	4	0100
 	 *	RED		:	5	0101
 	 */
+
 	
 	unsigned long Up { 0x00000000 };
 	unsigned long Down { 0x11111111 };

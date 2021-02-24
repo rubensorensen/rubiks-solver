@@ -17,8 +17,8 @@ int main(void) {
 	
 	cube->ShowCube();
 
-	
 	std::cin.get();
 	delete cube;
+	
 	return 0;
 }
