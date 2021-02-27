@@ -4,6 +4,16 @@
 
 using std::cout, std::endl;
 
+Cube::Cube(uint32_t Up, uint32_t Down, uint32_t Front, uint32_t Back, uint32_t Right, uint32_t Left) {
+	this->Up = Up;
+	this->Down = Down;
+	this->Front = Front;
+	this->Back = Back;
+	this->Right = Right;
+	this->Left = Left;
+}
+
+
 //	Bitwise rotation Right
 template <class N>
 N Cube::Rotr(N n, unsigned int d) {
@@ -24,7 +34,7 @@ N Cube::Rotl(N n, unsigned int d) {
 
 //	Front Quarter-Turn Clockwise
 void Cube::F() {
-	const unsigned long tmp{ Up };
+	const uint32_t tmp{ Up };
 	Up = (Up & 0xFFFF000F) | Rotr((Left & 0x00FFF000), 8);
 	Left = (Left & 0xFF000FFF) | Rotr((Down & 0xFFF00000), 8);
 	Down = (Down & 0x000FFFFF) | Rotr((Right & 0xF00000FF), 8);
@@ -34,7 +44,7 @@ void Cube::F() {
 
 //	Front Quarter-Turn Anti-Clockwise
 void Cube::Fprime() {
-	const unsigned long tmp{ Up };
+	const uint32_t tmp{ Up };
 	Up = (Up & 0xFFFF000F) | Rotl((Right & 0xF00000FF), 8);
 	Right = (Right & 0x0FFFFF00) | Rotl((Down & 0xFFF00000), 8);
 	Down = (Down & 0x000FFFFF) | Rotl((Left & 0x00FFF000), 8);
@@ -44,7 +54,7 @@ void Cube::Fprime() {
 
 //	Front Half-Turn
 void Cube::F2() {
-	unsigned long tmp{ Up };
+	uint32_t tmp{ Up };
 	Up = (Up & 0xFFFF000F) | Rotr((Down & 0xFFF00000), 16);
 	Down = (Down & 0x000FFFFF) | Rotr((tmp & 0x0000FFF0), 16);
 	tmp = { Right };
@@ -55,7 +65,7 @@ void Cube::F2() {
 
 //	Back Quarter-Turn Clockwise
 void Cube::B() {
-	const unsigned long tmp{ Up };
+	const uint32_t tmp{ Up };
 	Up = (Up & 0x000FFFFF) | Rotl((Right & 0x00FFF000), 8);
 	Right = (Right & 0xFF000FFF) | Rotl((Down & 0x0000FFF0), 8);
 	Down = (Down & 0xFFFF000F) | Rotl((Left & 0xF00000FF), 8);
@@ -65,7 +75,7 @@ void Cube::B() {
 
 //	Back Quarter-Turn Anti-Clockwise
 void Cube::Bprime() {
-	const unsigned long tmp{ Up };
+	const uint32_t tmp{ Up };
 	Up = (Up & 0x000FFFFF) | Rotr((Left & 0xF00000FF), 8);
 	Left = (Left & 0x0FFFFF00) | Rotr((Down & 0x0000FFF0), 8);
 	Down = (Down & 0xFFFF000F) | Rotr((Right & 0x00FFF000), 8);
@@ -75,7 +85,7 @@ void Cube::Bprime() {
 
 //	Back Half-Turn
 void Cube::B2() {
-	unsigned long tmp{ Up };
+	uint32_t tmp{ Up };
 	Up = (Up & 0x000FFFFF) | Rotl((Down & 0x0000FFF0), 16);
 	Down = (Down & 0xFFFF000F) | Rotl((tmp & 0xFFF00000), 16);
 	tmp = { Left };
@@ -86,7 +96,7 @@ void Cube::B2() {
 
 //	Up Quarter-Turn Clockwise
 void Cube::U() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0x000FFFFF) | (Right & 0xFFF00000);
 	Right = (Right & 0x000FFFFF) | (Back & 0xFFF00000);
 	Back = (Back & 0x000FFFFF) | (Left & 0xFFF00000);
@@ -96,7 +106,7 @@ void Cube::U() {
 
 //	Up Quarter-Turn Anti-Clockwise
 void Cube::Uprime() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0x000FFFFF) | (Left & 0xFFF00000);
 	Left = (Left & 0x000FFFFF) | (Back & 0xFFF00000);
 	Back = (Back & 0x000FFFFF) | (Right & 0xFFF00000);
@@ -106,7 +116,7 @@ void Cube::Uprime() {
 
 //	Up Half-Turn
 void Cube::U2() {
-	unsigned long tmp{ Front };
+	uint32_t tmp{ Front };
 	Front = (Front & 0x000FFFFF) | (Back & 0xFFF00000);
 	Back = (Back & 0x000FFFFF) | (tmp & 0xFFF00000);
 	tmp = { Left };
@@ -117,7 +127,7 @@ void Cube::U2() {
 
 //	Down Quarter-Turn Clockwise
 void Cube::D() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0xFFFF000F) | (Left & 0x0000FFF0);
 	Left = (Left & 0xFFFF000F) | (Back & 0x0000FFF0);
 	Back = (Back & 0xFFFF000F) | (Right & 0x0000FFF0);
@@ -127,7 +137,7 @@ void Cube::D() {
 
 //	Down Quarter-Turn Anti-Clockwise
 void Cube::Dprime() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0xFFFF000F) | (Right & 0x0000FFF0);
 	Right = (Right & 0xFFFF000F) | (Back & 0x0000FFF0);
 	Back = (Back & 0xFFFF000F) | (Left & 0x0000FFF0);
@@ -137,7 +147,7 @@ void Cube::Dprime() {
 
 //	Down Half-Turn
 void Cube::D2() {
-	unsigned long tmp{ Front };
+	uint32_t tmp{ Front };
 	Front = (Front & 0xFFFF000F) | (Back & 0x0000FFF0);
 	Back = (Back & 0xFFFF000F) | (tmp & 0x0000FFF0);
 	tmp = { Left };
@@ -148,7 +158,7 @@ void Cube::D2() {
 
 // Right Quarter-Turn Clockwise
 void Cube::R() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0xFF000FFF) | (Down & 0x00FFF000);
 	Down = (Down & 0xFF000FFF) | Rotr((Back & 0xF00000FF), 16);
 	Back = (Back & 0x0FFFFF00) | Rotr((Up & 0x00FFF000), 16);
@@ -158,7 +168,7 @@ void Cube::R() {
 
 //	Right Quarter-Turn Anti-Clockwise
 void Cube::Rprime() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0xFF000FFF) | (Up & 0x00FFF000);
 	Up = (Up & 0xFF000FFF) | Rotl((Back & 0xF00000FF), 16);
 	Back = (Back & 0x0FFFFF00) | Rotl((Down & 0x00FFF000), 16);
@@ -168,7 +178,7 @@ void Cube::Rprime() {
 
 //	Right Half-Turn
 void Cube::R2() {
-	unsigned long tmp{ Front };
+	uint32_t tmp{ Front };
 	Front = (Front & 0xFF000FFF) | Rotr((Back & 0xF00000FF), 16);
 	Back = (Back & 0x0FFFFF00) | Rotr((tmp & 0x00FFF000), 16);
 	tmp = Up;
@@ -179,7 +189,7 @@ void Cube::R2() {
 
 //	Left Quarter-Turn Clockwise
 void Cube::L() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0x0FFFFF00) | (Up & 0xF00000FF);
 	Up = (Up & 0x0FFFFF00) | Rotr((Back & 0x00FFF000), 16);
 	Back = (Back & 0xFF000FFF) | Rotr((Down & 0xF00000FF), 16);
@@ -189,7 +199,7 @@ void Cube::L() {
 
 // Left Quarter-Turn Anti-Clockwise
 void Cube::Lprime() {
-	const unsigned long tmp{ Front };
+	const uint32_t tmp{ Front };
 	Front = (Front & 0x0FFFFF00) | (Down & 0xF00000FF);
 	Down = (Down & 0x0FFFFF00) | Rotl((Back & 0x00FFF000), 16);
 	Back = (Back & 0xFF000FFF) | Rotl((Up & 0xF00000FF), 16);
@@ -199,7 +209,7 @@ void Cube::Lprime() {
 
 //Left Half-Turn
 void Cube::L2() {
-	unsigned long tmp{ Front };
+	uint32_t tmp{ Front };
 	Front = (Front & 0x0FFFFF00) | Rotr((Back & 0x00FFF000), 16);
 	Back = (Back & 0xFF000FFF) | Rotr((tmp & 0xF00000FF), 16);
 	tmp = { Up };
@@ -238,7 +248,7 @@ void Cube::PrintVals() {
 	cout << endl;
 }
 
-char Cube::GetColor(unsigned long num) {
+char Cube::GetColor(uint32_t num) {
 	switch (num) {
 	case 0:
 		return 'Y';

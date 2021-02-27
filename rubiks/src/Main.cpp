@@ -1,24 +1,25 @@
 #include <iostream>
-#include <string>
-#include <bitset>
+#include <cstdlib>
 #include "Cube.h"
+#include "Patterns.h"
 
-int main(void) {
-	Cube* cube = new Cube();
-	cube->ShowCube();
-	std::cout << "---------------------------\n" << std::endl;
+uint32_t to_uint32(const char* str) { return static_cast<uint32_t>(std::strtol(str, nullptr, 16)); }
 
-	cube->R2();
-	cube->L2();
-	cube->F2();
-	cube->B2();
-	cube->U2();
-	cube->D2();
+int main(int argc, char* argv[]) {
+
+	Cube cube(
+		to_uint32(argv[1]), 
+		to_uint32(argv[2]), 
+		to_uint32(argv[3]), 
+		to_uint32(argv[4]), 
+		to_uint32(argv[5]), 
+		to_uint32(argv[6])
+	);
 	
-	cube->ShowCube();
+	cube.ShowCube();
+	Patterns::Checkerboard(cube);
+	cube.ShowCube();
 
 	std::cin.get();
-	delete cube;
 	
-	return 0;
 }
