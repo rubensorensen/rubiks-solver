@@ -30,7 +30,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Patterns.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
