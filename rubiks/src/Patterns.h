@@ -2,7 +2,8 @@
 
 #include "Cube.h"
 
-namespace Patterns {
+namespace Patterns
+{
 	
 	void Superflip(Cube& cube);
 	void Checkerboard(Cube& cube);

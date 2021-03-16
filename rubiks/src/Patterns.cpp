@@ -1,7 +1,8 @@
 #include "Patterns.h"
 #include "Cube.h"
 
-void Patterns::Superflip(Cube& cube) {
+void Patterns::Superflip(Cube& cube)
+{
 	cube.U();
 	cube.R2();
 	cube.F();
@@ -25,7 +26,8 @@ void Patterns::Superflip(Cube& cube) {
 }
 
 
-void Patterns::Checkerboard(Cube& cube) {
+void Patterns::Checkerboard(Cube& cube)
+{
 	cube.R2();
 	cube.L2();
 	cube.F2();
@@ -34,7 +36,8 @@ void Patterns::Checkerboard(Cube& cube) {
 	cube.D2();
 }
 
-void Patterns::Wire(Cube& cube) {
+void Patterns::Wire(Cube& cube)
+{
 	cube.R();
 	cube.L();
 	cube.F();
@@ -55,7 +58,8 @@ void Patterns::Wire(Cube& cube) {
 	cube.L2();
 }
 
-void Patterns::CheckerboardInCube(Cube& cube) {
+void Patterns::CheckerboardInCube(Cube& cube)
+{
 	cube.B();
 	cube.D();
 	cube.Fprime();
@@ -78,7 +82,8 @@ void Patterns::CheckerboardInCube(Cube& cube) {
 	cube.D();
 }
 
-void Patterns::PerpendicularLines(Cube& cube) {
+void Patterns::PerpendicularLines(Cube& cube)
+{
 	cube.R2();
 	cube.U2();
 	cube.L2();
@@ -87,7 +92,8 @@ void Patterns::PerpendicularLines(Cube& cube) {
 	cube.R2();
 }
 
-void Patterns::FlippedTips(Cube& cube) {
+void Patterns::FlippedTips(Cube& cube)
+{
 	cube.U();
 	cube.B();
 	cube.Dprime();
@@ -106,7 +112,8 @@ void Patterns::FlippedTips(Cube& cube) {
 	cube.R2();
 }
 
-void Patterns::Spiral(Cube& cube) {
+void Patterns::Spiral(Cube& cube)
+{
 	cube.Lprime();
 	cube.Bprime();
 	cube.D();
@@ -125,7 +132,8 @@ void Patterns::Spiral(Cube& cube) {
 	cube.U();
 }
 
-void Patterns::Deckerboard(Cube& cube) {
+void Patterns::Deckerboard(Cube& cube)
+{
 	cube.U();
 	cube.D();
 	cube.R();
@@ -144,7 +152,8 @@ void Patterns::Deckerboard(Cube& cube) {
 	cube.D();
 }
 
-void Patterns::VerticalLines(Cube& cube) {
+void Patterns::VerticalLines(Cube& cube)
+{
 	cube.F();
 	cube.U();
 	cube.F();
@@ -164,7 +173,8 @@ void Patterns::VerticalLines(Cube& cube) {
 	cube.F();
 }
 
-void Patterns::Crosses(Cube& cube) {
+void Patterns::Crosses(Cube& cube)
+{
 	cube.R2();
 	cube.Lprime();
 	cube.D();
@@ -183,7 +193,8 @@ void Patterns::Crosses(Cube& cube) {
 	cube.D2();
 }
 
-void Patterns::CubeInCube(Cube& cube) {
+void Patterns::CubeInCube(Cube& cube)
+{
 	cube.F();
 	cube.L();
 	cube.F();
@@ -201,7 +212,8 @@ void Patterns::CubeInCube(Cube& cube) {
 	cube.U();
 }
 
-void Patterns::CubeInCubeInCube(Cube& cube) {
+void Patterns::CubeInCubeInCube(Cube& cube)
+{
 	cube.Uprime();
 	cube.Lprime();
 	cube.Uprime();
@@ -222,7 +234,8 @@ void Patterns::CubeInCubeInCube(Cube& cube) {
 	cube.Fprime();
 }
 
-void Patterns::Anaconda(Cube& cube) {
+void Patterns::Anaconda(Cube& cube)
+{
 	cube.L();
 	cube.U();
 	cube.Bprime();
@@ -239,7 +252,8 @@ void Patterns::Anaconda(Cube& cube) {
 	cube.Fprime();
 }
 
-void Patterns::Python(Cube& cube) {
+void Patterns::Python(Cube& cube)
+{
 	cube.F2();
 	cube.Rprime();
 	cube.Bprime();
@@ -256,7 +270,8 @@ void Patterns::Python(Cube& cube) {
 	cube.L2();
 }
 
-void Patterns::Spots(Cube& cube) {
+void Patterns::Spots(Cube& cube)
+{
 	cube.U();
 	cube.Dprime();
 	cube.R();

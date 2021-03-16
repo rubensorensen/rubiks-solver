@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-class Cube {
+class Cube
+{
 
 /*		COLOR SCHEME
  *
@@ -23,12 +24,6 @@ public:
 		uint32_t Right = 0x44444444,
 		uint32_t Left = 0x55555555
 	);
-
-	template <class N>
-	N Rotr(N n, unsigned int d);
-	
-	template <class N>
-	N Rotl(N n, unsigned int d);
 
 	void F();
 	void Fprime();
