@@ -4,14 +4,14 @@
 
 //	Bitwise rotation Right
 template <class N>
-N ror(N n, unsigned int d)
+N ror(const N n, const uint8_t d)
 {
 	return n >> d | n << (sizeof(n) * 8 - d);
 }
 
 //	Bitwise rotation Left
 template <class N>
-N rol(N n, unsigned int d)
+N rol(const N n, const uint8_t d)
 {
 	return n << d | n >> (sizeof(n) * 8 - d);
 }
@@ -238,10 +238,12 @@ void Cube::L2()
 }
 
 
-void Cube::ShowCube()
+void Cube::ShowCube() const
 {
 
 	using std::cout, std::endl;
+
+	PrintVals();
 	
 	cout << "        " << GetColor(Up >> 28) << " " << GetColor(Up >> 24 & 0x0F) << " " << GetColor(Up >> 20 & 0x00F) << "  " << endl;
 	cout << "        " << GetColor(Up & 0x0000000F) << " " << 'Y' << " " << GetColor(Up >> 16 & 0x000F) << "  " << endl;
@@ -276,7 +278,7 @@ void Cube::ShowCube()
 	cout << endl;
 }
 
-void Cube::PrintVals()
+void Cube::PrintVals() const
 {
 
 	using std::cout, std::endl;
@@ -290,7 +292,7 @@ void Cube::PrintVals()
 	cout << endl;
 }
 
-char Cube::GetColor(uint32_t num)
+char Cube::GetColor(uint32_t num) const
 {
 	switch (num) {
 	case 0:

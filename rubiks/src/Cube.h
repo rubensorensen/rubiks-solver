@@ -49,9 +49,9 @@ public:
 	void Lprime();
 	void L2();
 
-	void PrintVals();
-	void ShowCube();
-	char GetColor(uint32_t num);
+	void PrintVals() const;
+	void ShowCube() const;
+	char GetColor(uint32_t num) const;
 
 private:
 
