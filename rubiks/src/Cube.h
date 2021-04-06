@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <bitset>
+#include <iostream>
 
 class Cube
 {
