@@ -31,7 +31,7 @@ Cube::Cube(uint32_t up, uint32_t down, uint32_t front, uint32_t back, uint32_t r
         CUBE ROTATIONS
 \****************************/
 
-//	m_Front Quarter-Turn Clockwise
+//	Front Quarter-Turn Clockwise
 void Cube::F()
 {
     const uint32_t tmp{ m_Up };
@@ -42,7 +42,7 @@ void Cube::F()
     m_Front = { ror(m_Front, 8) };
 }
 
-//	m_Front Quarter-Turn Anti-Clockwise
+//	Front Quarter-Turn Anti-Clockwise
 void Cube::Fprime()
 {
     const uint32_t tmp{ m_Up };
@@ -53,7 +53,7 @@ void Cube::Fprime()
     m_Front = { rol(m_Front, 8) };
 }
 
-//	m_Front Half-Turn
+//	Front Half-Turn
 void Cube::F2()
 {
     uint32_t tmp{ m_Up };
@@ -65,7 +65,7 @@ void Cube::F2()
     m_Front = { ror(m_Front, 16) };
 }
 
-//	m_Back Quarter-Turn Clockwise
+//	Back Quarter-Turn Clockwise
 void Cube::B()
 {
     const uint32_t tmp{ m_Up };
@@ -76,7 +76,7 @@ void Cube::B()
     m_Back = { ror(m_Back, 8) };
 }
 
-//	m_Back Quarter-Turn Anti-Clockwise
+//	Back Quarter-Turn Anti-Clockwise
 void Cube::Bprime()
 {
     const uint32_t tmp{ m_Up };
@@ -87,7 +87,7 @@ void Cube::Bprime()
     m_Back = { rol(m_Back, 8) };
 }
 
-//	m_Back Half-Turn
+//	Back Half-Turn
 void Cube::B2()
 {
     uint32_t tmp{ m_Up };
@@ -99,7 +99,7 @@ void Cube::B2()
     m_Back = { ror(m_Back, 16) };
 }
 
-//	m_Up Quarter-Turn Clockwise
+//	Up Quarter-Turn Clockwise
 void Cube::U()
 {
     const uint32_t tmp{ m_Front };
@@ -110,7 +110,7 @@ void Cube::U()
     m_Up = { ror(m_Up, 8) };
 }
 
-//	m_Up Quarter-Turn Anti-Clockwise
+//	Up Quarter-Turn Anti-Clockwise
 void Cube::Uprime()
 {
     const uint32_t tmp{ m_Front };
@@ -121,7 +121,7 @@ void Cube::Uprime()
     m_Up = { rol(m_Up, 8) };
 }
 
-//	m_Up Half-Turn
+//	Up Half-Turn
 void Cube::U2()
 {
     uint32_t tmp{ m_Front };
@@ -133,7 +133,7 @@ void Cube::U2()
     m_Up = { ror(m_Up, 16) };
 }
 
-//	m_Down Quarter-Turn Clockwise
+//	Down Quarter-Turn Clockwise
 void Cube::D()
 {
     const uint32_t tmp{ m_Front };
@@ -144,7 +144,7 @@ void Cube::D()
     m_Down = { ror(m_Down, 8) };
 }
 
-//	m_Down Quarter-Turn Anti-Clockwise
+//	Down Quarter-Turn Anti-Clockwise
 void Cube::Dprime()
 {
     const uint32_t tmp{ m_Front };
@@ -155,7 +155,7 @@ void Cube::Dprime()
     m_Down = { rol(m_Down, 8) };
 }
 
-//	m_Down Half-Turn
+//	Down Half-Turn
 void Cube::D2()
 {
     uint32_t tmp{ m_Front };
@@ -167,7 +167,7 @@ void Cube::D2()
     m_Down = { ror(m_Down, 16) };
 }
 
-// m_Right Quarter-Turn Clockwise
+// Right Quarter-Turn Clockwise
 void Cube::R()
 {
     const uint32_t tmp{ m_Front };
@@ -178,7 +178,7 @@ void Cube::R()
     m_Right = { ror(m_Right, 8) };
 }
 
-//	m_Right Quarter-Turn Anti-Clockwise
+//	Right Quarter-Turn Anti-Clockwise
 void Cube::Rprime()
 {
     const uint32_t tmp{ m_Front };
@@ -189,7 +189,7 @@ void Cube::Rprime()
     m_Right = { rol(m_Right, 8) };
 }
 
-//	m_Right Half-Turn
+//	Right Half-Turn
 void Cube::R2()
 {
     uint32_t tmp{ m_Front };
@@ -201,7 +201,7 @@ void Cube::R2()
     m_Right = { ror(m_Right, 16) };
 }
 
-//	m_Left Quarter-Turn Clockwise
+//	Left Quarter-Turn Clockwise
 void Cube::L()
 {
     const uint32_t tmp{ m_Front };
@@ -212,7 +212,7 @@ void Cube::L()
     m_Left = { ror(m_Left, 8) };
 }
 
-// m_Left Quarter-Turn Anti-Clockwise
+//  Left Quarter-Turn Anti-Clockwise
 void Cube::Lprime()
 {
     const uint32_t tmp{ m_Front };
@@ -223,7 +223,7 @@ void Cube::Lprime()
     m_Left = { rol(m_Left, 8) };
 }
 
-//m_Left Half-Turn
+//  Left Half-Turn
 void Cube::L2()
 {
     uint32_t tmp{ m_Front };
@@ -238,7 +238,6 @@ void Cube::L2()
 
 void Cube::ShowCube() const
 {
-
     using std::cout, std::endl;
 
     PrintVals();
@@ -281,12 +280,12 @@ void Cube::PrintVals() const
 
     using std::cout, std::endl;
 
-    cout << "m_Up:    " << std::bitset<32>(m_Up) << endl;
-    cout << "m_Down:  " << std::bitset<32>(m_Down) << endl;
-    cout << "m_Front: " << std::bitset<32>(m_Front) << endl;
-    cout << "m_Back:  " << std::bitset<32>(m_Back) << endl;
-    cout << "m_Right: " << std::bitset<32>(m_Right) << endl;
-    cout << "m_Left:  " << std::bitset<32>(m_Left) << endl;
+    cout << "Up:    " << std::bitset<32>(m_Up) << endl;
+    cout << "Down:  " << std::bitset<32>(m_Down) << endl;
+    cout << "Front: " << std::bitset<32>(m_Front) << endl;
+    cout << "Back:  " << std::bitset<32>(m_Back) << endl;
+    cout << "Right: " << std::bitset<32>(m_Right) << endl;
+    cout << "Left:  " << std::bitset<32>(m_Left) << endl;
     cout << endl;
 }
 
