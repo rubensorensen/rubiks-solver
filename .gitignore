@@ -1,3 +1,6 @@
-.idea
-cmake-build-release
-cmake-build-debug
+.idea/
+.cache/
+cmake-build-release/
+cmake-build-debug/
+build/
+tags
