@@ -1,5 +1,5 @@
-#include "Patterns.h"
-#include "Cube.h"
+#include "patterns.h"
+#include "cube.h"
 
 void Patterns::Superflip(Cube& cube)
 {
@@ -24,7 +24,6 @@ void Patterns::Superflip(Cube& cube)
     cube.U2();
     cube.F2();
 }
-
 
 void Patterns::Checkerboard(Cube& cube)
 {
