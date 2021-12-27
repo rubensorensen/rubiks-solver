@@ -385,7 +385,7 @@ void Cube::RotateByString(std::string str)
 void Cube::RotateFromFile(const char* filepath)
 {
     std::string str;
-    std::cout << "[INFO] Opening file '" << filepath << "'..." << std::endl;
+    std::cerr << "[INFO] Opening file '" << filepath << "'..." << std::endl;
     std::ifstream file(filepath);
     if (file.is_open())
     {
