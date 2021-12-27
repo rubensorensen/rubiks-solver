@@ -235,7 +235,8 @@ void Cube::L2()
 
 void Cube::ShowCube() const
 {
-    using std::cout, std::endl;
+    using std::cout;
+    using std::endl;
 
     PrintVals();
 
@@ -290,7 +291,8 @@ void Cube::ShowCube() const
 void Cube::PrintVals() const
 {
 
-    using std::cout, std::endl;
+    using std::cout;
+    using std::endl;
 
     cout << "Up:    " << std::bitset<32>(m_Up) << endl;
     cout << "Down:  " << std::bitset<32>(m_Down) << endl;
