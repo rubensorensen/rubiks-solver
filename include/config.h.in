@@ -1,7 +1,0 @@
-#ifndef CONFIG_H
-#define CONFIG_H
-
-#define VERSION_MAJOR @CubeSolver_VERSION_MAJOR@
-#define VERSION_MINOR @CubeSolver_VERSION_MINOR@
-
-#endif

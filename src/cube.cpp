@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../include/cube.h"
 
 //	Bitwise rotation m_Right
 template <class N>

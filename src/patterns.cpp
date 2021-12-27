@@ -1,5 +1,5 @@
-#include "patterns.h"
-#include "cube.h"
+#include "../include/patterns.h"
+#include "../include/cube.h"
 
 void Patterns::Superflip(Cube& cube)
 {
