@@ -5,6 +5,9 @@ BUILD_PATH = build
 BIN_PATH = $(BUILD_PATH)/bin
 BIN = cube_solver
 
+PCH_SRC = include/pch.h
+PCH_OUT = include/pch.h.gch
+
 SRC_EXT = cpp
 SRC_PATH = src
 INCL_PATH = -I include/
@@ -34,6 +37,8 @@ clean :
 	@echo "Deleting directories"
 	@$(RM) -r $(BIN_PATH)
 	@$(RM) -r $(BUILD_PATH)
+	@echo "Deleting pre-compiled headers ($(PCH_OUT))"
+	@$(RM) $(PCH_OUT)
 
 .PHONY : all
 all : $(BIN_PATH)/$(BIN)
@@ -47,6 +52,10 @@ $(BIN_PATH)/$(BIN) : $(OBJ)
 
 -include $(DEPS)
 
-$(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
+$(PCH_OUT) : $(PCH_SRC)
+	@echo "Pre-compiling headers: $< -> $@"
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+$(BUILD_PATH)/%.o : $(SRC_PATH)/%.$(SRC_EXT) $(PCH_OUT)
 	@echo "Compiling: $< -> $@"
-	$(CXX) $(CXXFLAGS) $(INCL_PATH) -MP -MMD -c $< -o $@
+	$(CXX) $(CXXFLAGS) -include $(PCH_SRC) $(INCL_PATH) -MP -MMD -c $< -o $@

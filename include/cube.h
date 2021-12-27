@@ -1,15 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <algorithm>
-#include <bitset>
-#include <cstdint>
-#include <fstream>
-#include <iostream>
-#include <random>
-#include <sstream>
-#include <string>
-#include <vector>
+#include "pch.h"
 
 class Cube
 {
