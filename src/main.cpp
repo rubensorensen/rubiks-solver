@@ -14,6 +14,6 @@ int main(int argc, char* argv[])
                     to_uint32(argv[4]), to_uint32(argv[5]), to_uint32(argv[6]));
 
     cube.ShowCube();
-    cube.RotateFromFile("res/patterns/checkerboard");
+    cube.Shuffle(100);
     cube.ShowCube();
 }

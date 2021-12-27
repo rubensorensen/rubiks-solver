@@ -396,3 +396,79 @@ void Cube::RotateFromFile(const char* filepath)
     else
         std::cerr << "[ERROR] File path '" << filepath << "' not valid" << std::endl;
 }
+
+void Cube::Shuffle(const uint8_t n)
+{
+    std::vector<int32_t> moves(n);
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(1, 18);
+    std::for_each(moves.begin(), moves.end(),
+                  [&dist, &rng](int32_t& i) { i = dist(rng); });
+
+    std::cout << "Shuffling: ";
+    for (auto& m : moves)
+        std::cout << m << " ";
+    std::cout << std::endl;
+
+    for (auto& m : moves)
+    {
+        switch (m)
+        {
+        case 1:
+            F();
+            break;
+        case 2:
+            Fprime();
+            break;
+        case 3:
+            F2();
+            break;
+        case 4:
+            B();
+            break;
+        case 5:
+            Bprime();
+            break;
+        case 6:
+            B2();
+            break;
+        case 7:
+            U();
+            break;
+        case 8:
+            Uprime();
+            break;
+        case 9:
+            U2();
+            break;
+        case 10:
+            D();
+            break;
+        case 11:
+            Dprime();
+            break;
+        case 12:
+            D2();
+            break;
+        case 13:
+            R();
+            break;
+        case 14:
+            Rprime();
+            break;
+        case 15:
+            R2();
+            break;
+        case 16:
+            L();
+            break;
+        case 17:
+            Lprime();
+            break;
+        case 18:
+            L2();
+            break;
+        }
+    }
+}

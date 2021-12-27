@@ -52,6 +52,7 @@ public:
     bool IsSolved();
     void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
+    void Shuffle(const uint8_t n);
 
 private:
     uint32_t m_Up;
