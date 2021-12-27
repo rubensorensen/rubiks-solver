@@ -329,3 +329,70 @@ bool Cube::IsSolved()
     return m_Up == 0x000000 && m_Down == 0x11111111 && m_Front == 0x22222222 &&
            m_Back == 0x33333333 && m_Right == 0x44444444 && m_Left == 0x55555555;
 }
+
+void Cube::RotateByString(std::string str)
+{
+    std::stringstream ss(str);
+    while (getline(ss, str, ','))
+    {
+        if (str == "F")
+            F();
+        else if (str == "F'")
+            Fprime();
+        else if (str == "F2")
+            F2();
+
+        else if (str == "B")
+            B();
+        else if (str == "B'")
+            Bprime();
+        else if (str == "B2")
+            B2();
+
+        else if (str == "U")
+            U();
+        else if (str == "U'")
+            Uprime();
+        else if (str == "U2")
+            U2();
+
+        else if (str == "D")
+            D();
+        else if (str == "D'")
+            Dprime();
+        else if (str == "D2")
+            D2();
+
+        else if (str == "R")
+            R();
+        else if (str == "R'")
+            Rprime();
+        else if (str == "R2")
+            R2();
+
+        else if (str == "L")
+            L();
+        else if (str == "L'")
+            Lprime();
+        else if (str == "L2")
+            L2();
+
+        else
+            std::cerr << "[ERROR] UNKNOWN ROTATION: " << str << std::endl;
+    }
+}
+
+void Cube::RotateFromFile(const char* filepath)
+{
+    std::string str;
+    std::cout << "[INFO] Opening file '" << filepath << "'..." << std::endl;
+    std::ifstream file(filepath);
+    if (file.is_open())
+    {
+        getline(file, str);
+        file.close();
+        RotateByString(str);
+    }
+    else
+        std::cerr << "[ERROR] File path '" << filepath << "' not valid" << std::endl;
+}

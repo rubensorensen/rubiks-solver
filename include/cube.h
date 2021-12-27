@@ -1,9 +1,15 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <algorithm>
 #include <bitset>
 #include <cstdint>
+#include <fstream>
 #include <iostream>
+#include <random>
+#include <sstream>
+#include <string>
+#include <vector>
 
 class Cube
 {
@@ -19,7 +25,9 @@ class Cube
      */
 
 public:
-    Cube(uint32_t up = 0x00000000, uint32_t down = 0x11111111, uint32_t front = 0x22222222, uint32_t back = 0x33333333, uint32_t right = 0x44444444, uint32_t left = 0x55555555);
+    Cube(uint32_t up = 0x00000000, uint32_t down = 0x11111111,
+         uint32_t front = 0x22222222, uint32_t back = 0x33333333,
+         uint32_t right = 0x44444444, uint32_t left = 0x55555555);
 
     void F();
     void Fprime();
@@ -50,6 +58,8 @@ public:
     char GetColor(uint32_t num) const;
 
     bool IsSolved();
+    void RotateByString(std::string str);
+    void RotateFromFile(const char* filepath);
 
 private:
     uint32_t m_Up;

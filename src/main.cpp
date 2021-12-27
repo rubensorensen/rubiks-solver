@@ -1,5 +1,5 @@
 #include "../include/cube.h"
-#include "../include/patterns.h"
+#include "../include/thistlethwaite.h"
 
 uint32_t to_uint32(const char* str)
 {
@@ -14,6 +14,6 @@ int main(int argc, char* argv[])
                     to_uint32(argv[4]), to_uint32(argv[5]), to_uint32(argv[6]));
 
     cube.ShowCube();
-    Patterns::Checkerboard(cube);
+    cube.RotateFromFile("res/patterns/checkerboard");
     cube.ShowCube();
 }
