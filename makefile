@@ -1,5 +1,5 @@
 CXX ?= g++
-CFLAGS = -g -Wall -Wextra -std=c++20
+CFLAGS = -g -Wall -Wextra -std=c++17
 
 BUILD_PATH = build
 BIN_PATH = $(BUILD_PATH)/bin
