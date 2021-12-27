@@ -49,6 +49,8 @@ public:
     void ShowCube() const;
     char GetColor(uint32_t num) const;
 
+    bool IsSolved();
+
 private:
     uint32_t m_Up;
     uint32_t m_Down;
