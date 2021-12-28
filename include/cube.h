@@ -73,6 +73,8 @@ private:
     uint32_t m_Back;
     uint32_t m_Right;
     uint32_t m_Left;
+
+    friend class CubeHandler;
 };
 
 #endif

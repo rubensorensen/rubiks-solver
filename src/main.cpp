@@ -16,6 +16,13 @@ int main(int argc, char* argv[])
 
     CubeHandler handler(cube);
     cube->ShowCube();
-    handler.RotateFromFile("res/patterns/python");
+    std::cout << "\nAre all edges oriented correctly? " << handler.EdgesOriented()
+              << std::endl;
+    handler.RotateByString("12,15,2,16,3,14,5");
     cube->ShowCube();
+    std::cout << "\nAre all edges oriented correctly? " << handler.EdgesOriented()
+              << std::endl;
+    handler.PrintEdges();
+
+    return 0;
 }

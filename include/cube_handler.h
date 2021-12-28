@@ -12,6 +12,8 @@ public:
     void ShuffleCube(uint8_t n);
     void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
+    void PrintEdges();
+    bool EdgesOriented();
 
 private:
     std::shared_ptr<Cube> m_Cube;
