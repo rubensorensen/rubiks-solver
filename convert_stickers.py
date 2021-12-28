@@ -25,7 +25,7 @@ for i in range(1, len(sys.argv)):
         elif (sticker == 'R'):
             faces.append('5')
         else:
-            print(F"Unknown sticker color: {sticker}")
+            print("Unknown sticker color: " + sticker)
     if (i != 6):
         faces.append(' ')
 
