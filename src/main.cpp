@@ -1,4 +1,4 @@
-#include "../include/cube.h"
+#include "../include/cube_handler.h"
 #include "../include/thistlethwaite.h"
 
 uint32_t to_uint32(const char* str)
@@ -8,12 +8,14 @@ uint32_t to_uint32(const char* str)
 
 int main(int argc, char* argv[])
 {
-    Cube cube;
+    std::shared_ptr<Cube> cube = std::make_shared<Cube>();
     if (argc == 7)
-        cube = Cube(to_uint32(argv[1]), to_uint32(argv[2]), to_uint32(argv[3]),
-                    to_uint32(argv[4]), to_uint32(argv[5]), to_uint32(argv[6]));
+        cube = std::make_shared<Cube>(to_uint32(argv[1]), to_uint32(argv[2]),
+                                      to_uint32(argv[3]), to_uint32(argv[4]),
+                                      to_uint32(argv[5]), to_uint32(argv[6]));
 
-    cube.ShowCube();
-    cube.Shuffle(100);
-    cube.ShowCube();
+    CubeHandler handler(cube);
+    cube->ShowCube();
+    handler.RotateFromFile("res/patterns/checkerboard");
+    cube->ShowCube();
 }
