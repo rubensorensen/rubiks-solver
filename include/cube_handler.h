@@ -10,7 +10,7 @@ public:
     ~CubeHandler() = default;
 
     void ShuffleCube(uint8_t n);
-    void RotateByString(std::string& str);
+    void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
 
 private:

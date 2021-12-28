@@ -20,56 +20,11 @@ void CubeHandler::ShuffleCube(uint8_t n)
         m_Cube->Twist(static_cast<Cube::MOVE>(m));
 }
 
-void CubeHandler::RotateByString(std::string& str)
+void CubeHandler::RotateByString(std::string str)
 {
     std::stringstream ss(str);
     while (getline(ss, str, ','))
-    {
-        if (str == "U")
-            m_Cube->Twist(Cube::MOVE::UP);
-        else if (str == "U'")
-            m_Cube->Twist(Cube::MOVE::UPRIME);
-        else if (str == "U2")
-            m_Cube->Twist(Cube::MOVE::UP2);
-
-        else if (str == "D")
-            m_Cube->Twist(Cube::MOVE::DOWN);
-        else if (str == "D'")
-            m_Cube->Twist(Cube::MOVE::DPRIME);
-        else if (str == "D2")
-            m_Cube->Twist(Cube::MOVE::DOWN2);
-
-        else if (str == "F")
-            m_Cube->Twist(Cube::MOVE::FRONT);
-        else if (str == "F'")
-            m_Cube->Twist(Cube::MOVE::FPRIME);
-        else if (str == "F2")
-            m_Cube->Twist(Cube::MOVE::FRONT2);
-
-        else if (str == "B")
-            m_Cube->Twist(Cube::MOVE::BACK);
-        else if (str == "B'")
-            m_Cube->Twist(Cube::MOVE::BPRIME);
-        else if (str == "B2")
-            m_Cube->Twist(Cube::MOVE::BACK2);
-
-        else if (str == "R")
-            m_Cube->Twist(Cube::MOVE::RIGHT);
-        else if (str == "R'")
-            m_Cube->Twist(Cube::MOVE::RPRIME);
-        else if (str == "R2")
-            m_Cube->Twist(Cube::MOVE::RIGHT2);
-
-        else if (str == "L")
-            m_Cube->Twist(Cube::MOVE::LEFT);
-        else if (str == "L'")
-            m_Cube->Twist(Cube::MOVE::LPRIME);
-        else if (str == "L2")
-            m_Cube->Twist(Cube::MOVE::LEFT2);
-
-        else
-            std::cerr << "[ERROR] UNKNOWN ROTATION: " << str << std::endl;
-    }
+        m_Cube->Twist(static_cast<Cube::MOVE>(stoi(str)));
 }
 
 void CubeHandler::RotateFromFile(const char* filepath)

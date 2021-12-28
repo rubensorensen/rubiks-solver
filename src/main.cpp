@@ -16,6 +16,6 @@ int main(int argc, char* argv[])
 
     CubeHandler handler(cube);
     cube->ShowCube();
-    handler.RotateFromFile("res/patterns/checkerboard");
+    handler.RotateFromFile("res/patterns/python");
     cube->ShowCube();
 }
