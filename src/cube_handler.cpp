@@ -108,34 +108,32 @@ bool CubeHandler::EdgesOriented()
 
     for (size_t i{0}; i < 4; ++i)
     {
-        // Are any orange or red stickers visible on edges on the up layer?
-        if (upEdges[i] == Cube::COLOR::ORANGE || upEdges[i] == Cube::COLOR::RED)
-            std::cout << "ORANGE/RED STICKER ON UP LAYER" << std::endl; // return false;
-        // Are any green og blue stickers visible on edges on the up layer?
-        if (upEdges[i] == Cube::COLOR::GREEN || upEdges[i] == Cube::COLOR::BLUE)
+        // Are any orange or red stickers visible on edges on the front layer?
+        if (frontEdges[i] == Cube::COLOR::ORANGE || frontEdges[i] == Cube::COLOR::RED)
+            return false;
+        // Are any yellow og white stickers visible on edges on the front layer?
+        if (frontEdges[i] == Cube::COLOR::YELLOW || frontEdges[i] == Cube::COLOR::WHITE)
         {
-            std::cout << "GREEN/BLUE STICKER ON UP LAYER" << std::endl;
-            // Check other sticker of edge for a yellow or white sticker
+            // Check other sticker of edge for a green or blue sticker
             switch (i)
             {
             case 0:
-                if (backEdges[0] == Cube::COLOR::YELLOW ||
-                    backEdges[0] == Cube::COLOR::WHITE)
+                if (upEdges[2] == Cube::COLOR::GREEN || upEdges[2] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 1:
-                if (rightEdges[0] == Cube::COLOR::YELLOW ||
-                    rightEdges[0] == Cube::COLOR::WHITE)
+                if (rightEdges[3] == Cube::COLOR::GREEN ||
+                    rightEdges[3] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 2:
-                if (frontEdges[0] == Cube::COLOR::YELLOW ||
-                    frontEdges[0] == Cube::COLOR::WHITE)
+                if (downEdges[0] == Cube::COLOR::GREEN ||
+                    downEdges[0] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 3:
-                if (leftEdges[0] == Cube::COLOR::YELLOW ||
-                    leftEdges[0] == Cube::COLOR::WHITE)
+                if (leftEdges[1] == Cube::COLOR::GREEN ||
+                    leftEdges[1] == Cube::COLOR::BLUE)
                     return false;
                 break;
             }
@@ -144,83 +142,82 @@ bool CubeHandler::EdgesOriented()
 
     for (size_t i{0}; i < 4; ++i)
     {
-        // Are any orange or red stickers visible on edges on the down layer?
-        if (downEdges[i] == Cube::COLOR::ORANGE || downEdges[i] == Cube::COLOR::RED)
+        // Are any orange or red stickers visible on edges on the back layer?
+        if (backEdges[i] == Cube::COLOR::ORANGE || backEdges[i] == Cube::COLOR::RED)
             return false;
-        // Are any green og blue stickers visible on edges on the down layer?
-        if (downEdges[i] == Cube::COLOR::GREEN || downEdges[i] == Cube::COLOR::BLUE)
+        // Are any yellow og white stickers visible on edges on the back layer?
+        if (backEdges[i] == Cube::COLOR::YELLOW || backEdges[i] == Cube::COLOR::WHITE)
         {
-            // Check other sticker of edge for a yellow or white sticker
+            // Check other sticker of edge for a green or blue sticker
             switch (i)
             {
             case 0:
-                if (frontEdges[2] == Cube::COLOR::YELLOW ||
-                    frontEdges[2] == Cube::COLOR::WHITE)
+                if (upEdges[0] == Cube::COLOR::GREEN || upEdges[0] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 1:
-                if (rightEdges[2] == Cube::COLOR::YELLOW ||
-                    rightEdges[2] == Cube::COLOR::WHITE)
+                if (leftEdges[3] == Cube::COLOR::GREEN ||
+                    leftEdges[3] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 2:
-                if (backEdges[2] == Cube::COLOR::YELLOW ||
-                    backEdges[2] == Cube::COLOR::WHITE)
+                if (downEdges[2] == Cube::COLOR::GREEN ||
+                    downEdges[2] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 3:
-                if (leftEdges[2] == Cube::COLOR::YELLOW ||
-                    leftEdges[2] == Cube::COLOR::WHITE)
+                if (rightEdges[1] == Cube::COLOR::GREEN ||
+                    rightEdges[1] == Cube::COLOR::BLUE)
                     return false;
                 break;
             }
         }
     }
 
-    // Check front side of the middle layer (E slice)
+    // Check up side of the S slice
     for (size_t i{1}; i < 4; i += 2)
     {
-        // Are any orange or red stickers visible on the front side of the middle layer?
-        if (frontEdges[i] == Cube::COLOR::ORANGE || frontEdges[i] == Cube::COLOR::RED)
+        // Are any orange or red stickers visible on the up side of the S slice?
+        if (upEdges[i] == Cube::COLOR::ORANGE || upEdges[i] == Cube::COLOR::RED)
             return false;
-        // Are any green or blue stickers visible on the front edges of the middle layer?
-        if (frontEdges[i] == Cube::COLOR::GREEN || frontEdges[i] == Cube::COLOR::BLUE)
+        // Are any yellow or white stickers visible on the up edges of the S slice?
+        if (upEdges[i] == Cube::COLOR::YELLOW || upEdges[i] == Cube::COLOR::WHITE)
         {
             switch (i)
             {
             case 1:
-                if (rightEdges[3] == Cube::COLOR::YELLOW ||
-                    rightEdges[3] == Cube::COLOR::WHITE)
+                if (rightEdges[0] == Cube::COLOR::GREEN ||
+                    rightEdges[0] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 3:
-                if (leftEdges[1] == Cube::COLOR::YELLOW ||
-                    leftEdges[1] == Cube::COLOR::WHITE)
+                if (leftEdges[0] == Cube::COLOR::GREEN ||
+                    leftEdges[0] == Cube::COLOR::BLUE)
                     return false;
                 break;
             }
         }
     }
 
-    // Check back side of the middle layer (E slice)
+    // Check down side of the S slice
     for (size_t i{1}; i < 4; i += 2)
     {
-        // Are any orange or red stickers visible on the front side of the middle layer?
-        if (backEdges[i] == Cube::COLOR::ORANGE || backEdges[i] == Cube::COLOR::RED)
+        // Are any orange or red stickers visible on the down side of the S slice?
+        if (downEdges[i] == Cube::COLOR::ORANGE || downEdges[i] == Cube::COLOR::RED)
             return false;
-        // Are any green or blue stickers visible on the front edges of the middle layer?
-        if (backEdges[i] == Cube::COLOR::GREEN || backEdges[i] == Cube::COLOR::BLUE)
+        // Are any yellow or white stickers visible on the down edges of the middle layer?
+        if (downEdges[i] == Cube::COLOR::YELLOW || downEdges[i] == Cube::COLOR::WHITE)
         {
             switch (i)
             {
             case 1:
-                if (leftEdges[3] == Cube::COLOR::YELLOW ||
-                    leftEdges[3] == Cube::COLOR::WHITE)
+                if (rightEdges[2] == Cube::COLOR::GREEN ||
+                    rightEdges[2] == Cube::COLOR::BLUE)
                     return false;
                 break;
             case 3:
-                if (rightEdges[1] == Cube::COLOR::YELLOW ||
-                    rightEdges[1] == Cube::COLOR::WHITE)
+                if (leftEdges[2] == Cube::COLOR::GREEN ||
+                    leftEdges[2] == Cube::COLOR::BLUE)
                     return false;
                 break;
             }
