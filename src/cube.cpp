@@ -25,212 +25,201 @@ Cube::Cube(uint32_t up, uint32_t down, uint32_t front, uint32_t back, uint32_t r
     m_Left = {left};
 }
 
-/****************************\
-        CUBE ROTATIONS
-\****************************/
-
-//	Front Quarter-Turn Clockwise
-void Cube::F()
+void Cube::Twist(MOVE mv)
 {
-    const uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0xFFFF000F) | ror((m_Left & 0x00FFF000), 8)};
-    m_Left = {(m_Left & 0xFF000FFF) | ror((m_Down & 0xFFF00000), 8)};
-    m_Down = {(m_Down & 0x000FFFFF) | ror((m_Right & 0xF00000FF), 8)};
-    m_Right = {(m_Right & 0x0FFFFF00) | ror((tmp & 0x0000FFF0), 8)};
-    m_Front = {ror(m_Front, 8)};
-}
+    // U ROTATION
+    if (mv == MOVE::UP)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x000FFFFF) | (m_Right & 0xFFF00000)};
+        m_Right = {(m_Right & 0x000FFFFF) | (m_Back & 0xFFF00000)};
+        m_Back = {(m_Back & 0x000FFFFF) | (m_Left & 0xFFF00000)};
+        m_Left = {(m_Left & 0x000FFFFF) | (tmp & 0xFFF00000)};
+        m_Up = {ror(m_Up, 8)};
+    }
+    // U' ROTATION
+    else if (mv == MOVE::UPRIME)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x000FFFFF) | (m_Left & 0xFFF00000)};
+        m_Left = {(m_Left & 0x000FFFFF) | (m_Back & 0xFFF00000)};
+        m_Back = {(m_Back & 0x000FFFFF) | (m_Right & 0xFFF00000)};
+        m_Right = {(m_Right & 0x000FFFFF) | (tmp & 0xFFF00000)};
+        m_Up = {rol(m_Up, 8)};
+    }
+    // U2 ROTATION
+    else if (mv == MOVE::UP2)
+    {
+        uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x000FFFFF) | (m_Back & 0xFFF00000)};
+        m_Back = {(m_Back & 0x000FFFFF) | (tmp & 0xFFF00000)};
+        tmp = {m_Left};
+        m_Left = {(m_Left & 0x000FFFFF) | (m_Right & 0xFFF00000)};
+        m_Right = {(m_Right & 0x000FFFFF) | (tmp & 0xFFF00000)};
+        m_Up = {ror(m_Up, 16)};
+    }
 
-//	Front Quarter-Turn Anti-Clockwise
-void Cube::Fprime()
-{
-    const uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0xFFFF000F) | rol((m_Right & 0xF00000FF), 8)};
-    m_Right = {(m_Right & 0x0FFFFF00) | rol((m_Down & 0xFFF00000), 8)};
-    m_Down = {(m_Down & 0x000FFFFF) | rol((m_Left & 0x00FFF000), 8)};
-    m_Left = {(m_Left & 0xFF000FFF) | rol((tmp & 0x0000FFF0), 8)};
-    m_Front = {rol(m_Front, 8)};
-}
+    // D ROTATION
+    else if (mv == MOVE::DOWN)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFFFF000F) | (m_Left & 0x0000FFF0)};
+        m_Left = {(m_Left & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
+        m_Back = {(m_Back & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
+        m_Right = {(m_Right & 0xFFFF000F) | (tmp & 0x0000FFF0)};
+        m_Down = {ror(m_Down, 8)};
+    }
+    // D' ROTATION
+    else if (mv == MOVE::DPRIME)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
+        m_Right = {(m_Right & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
+        m_Back = {(m_Back & 0xFFFF000F) | (m_Left & 0x0000FFF0)};
+        m_Left = {(m_Left & 0xFFFF000F) | (tmp & 0x0000FFF0)};
+        m_Down = {rol(m_Down, 8)};
+    }
+    // D2 ROTATION
+    else if (mv == MOVE::DOWN2)
+    {
+        uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
+        m_Back = {(m_Back & 0xFFFF000F) | (tmp & 0x0000FFF0)};
+        tmp = {m_Left};
+        m_Left = {(m_Left & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
+        m_Right = {(m_Right & 0xFFFF000F) | (tmp & 0x0000FFF0)};
+        m_Down = {ror(m_Down, 16)};
+    }
 
-//	Front Half-Turn
-void Cube::F2()
-{
-    uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0xFFFF000F) | ror((m_Down & 0xFFF00000), 16)};
-    m_Down = {(m_Down & 0x000FFFFF) | ror((tmp & 0x0000FFF0), 16)};
-    tmp = {m_Right};
-    m_Right = {(m_Right & 0x0FFFFF00) | ror((m_Left & 0x00FFF000), 16)};
-    m_Left = {(m_Left & 0xFF000FFF) | ror((tmp & 0xF00000FF), 16)};
-    m_Front = {ror(m_Front, 16)};
-}
+    // F ROTATION
+    else if (mv == MOVE::FRONT)
+    {
+        const uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0xFFFF000F) | ror((m_Left & 0x00FFF000), 8)};
+        m_Left = {(m_Left & 0xFF000FFF) | ror((m_Down & 0xFFF00000), 8)};
+        m_Down = {(m_Down & 0x000FFFFF) | ror((m_Right & 0xF00000FF), 8)};
+        m_Right = {(m_Right & 0x0FFFFF00) | ror((tmp & 0x0000FFF0), 8)};
+        m_Front = {ror(m_Front, 8)};
+    }
+    // F' ROTATION
+    else if (mv == MOVE::FPRIME)
+    {
+        const uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0xFFFF000F) | rol((m_Right & 0xF00000FF), 8)};
+        m_Right = {(m_Right & 0x0FFFFF00) | rol((m_Down & 0xFFF00000), 8)};
+        m_Down = {(m_Down & 0x000FFFFF) | rol((m_Left & 0x00FFF000), 8)};
+        m_Left = {(m_Left & 0xFF000FFF) | rol((tmp & 0x0000FFF0), 8)};
+        m_Front = {rol(m_Front, 8)};
+    }
+    // F2 ROTATION
+    else if (mv == MOVE::FRONT2)
+    {
+        uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0xFFFF000F) | ror((m_Down & 0xFFF00000), 16)};
+        m_Down = {(m_Down & 0x000FFFFF) | ror((tmp & 0x0000FFF0), 16)};
+        tmp = {m_Right};
+        m_Right = {(m_Right & 0x0FFFFF00) | ror((m_Left & 0x00FFF000), 16)};
+        m_Left = {(m_Left & 0xFF000FFF) | ror((tmp & 0xF00000FF), 16)};
+        m_Front = {ror(m_Front, 16)};
+    }
 
-//	Back Quarter-Turn Clockwise
-void Cube::B()
-{
-    const uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0x000FFFFF) | rol((m_Right & 0x00FFF000), 8)};
-    m_Right = {(m_Right & 0xFF000FFF) | rol((m_Down & 0x0000FFF0), 8)};
-    m_Down = {(m_Down & 0xFFFF000F) | rol((m_Left & 0xF00000FF), 8)};
-    m_Left = {(m_Left & 0x0FFFFF00) | rol((tmp & 0xFFF00000), 8)};
-    m_Back = {ror(m_Back, 8)};
-}
+    // B ROTATION
+    else if (mv == MOVE::BACK)
+    {
+        const uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0x000FFFFF) | rol((m_Right & 0x00FFF000), 8)};
+        m_Right = {(m_Right & 0xFF000FFF) | rol((m_Down & 0x0000FFF0), 8)};
+        m_Down = {(m_Down & 0xFFFF000F) | rol((m_Left & 0xF00000FF), 8)};
+        m_Left = {(m_Left & 0x0FFFFF00) | rol((tmp & 0xFFF00000), 8)};
+        m_Back = {ror(m_Back, 8)};
+    }
+    // B' ROTATION
+    else if (mv == MOVE::BPRIME)
+    {
+        const uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0x000FFFFF) | ror((m_Left & 0xF00000FF), 8)};
+        m_Left = {(m_Left & 0x0FFFFF00) | ror((m_Down & 0x0000FFF0), 8)};
+        m_Down = {(m_Down & 0xFFFF000F) | ror((m_Right & 0x00FFF000), 8)};
+        m_Right = {(m_Right & 0xFF000FFF) | ror((tmp & 0xFFF00000), 8)};
+        m_Back = {rol(m_Back, 8)};
+    }
+    // B2 ROTATION
+    else if (mv == MOVE::BACK2)
+    {
+        uint32_t tmp{m_Up};
+        m_Up = {(m_Up & 0x000FFFFF) | rol((m_Down & 0x0000FFF0), 16)};
+        m_Down = {(m_Down & 0xFFFF000F) | rol((tmp & 0xFFF00000), 16)};
+        tmp = {m_Left};
+        m_Left = {(m_Left & 0x0FFFFF00) | rol((m_Right & 0x00FFF000), 16)};
+        m_Right = {(m_Right & 0xFF000FFF) | rol((tmp & 0xF00000FF), 16)};
+        m_Back = {ror(m_Back, 16)};
+    }
 
-//	Back Quarter-Turn Anti-Clockwise
-void Cube::Bprime()
-{
-    const uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0x000FFFFF) | ror((m_Left & 0xF00000FF), 8)};
-    m_Left = {(m_Left & 0x0FFFFF00) | ror((m_Down & 0x0000FFF0), 8)};
-    m_Down = {(m_Down & 0xFFFF000F) | ror((m_Right & 0x00FFF000), 8)};
-    m_Right = {(m_Right & 0xFF000FFF) | ror((tmp & 0xFFF00000), 8)};
-    m_Back = {rol(m_Back, 8)};
-}
+    // R ROTATION
+    else if (mv == MOVE::RIGHT)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFF000FFF) | (m_Down & 0x00FFF000)};
+        m_Down = {(m_Down & 0xFF000FFF) | ror((m_Back & 0xF00000FF), 16)};
+        m_Back = {(m_Back & 0x0FFFFF00) | ror((m_Up & 0x00FFF000), 16)};
+        m_Up = {(m_Up & 0xFF000FFF) | (tmp & 0x00FFF000)};
+        m_Right = {ror(m_Right, 8)};
+    }
+    // R' ROTATION
+    else if (mv == MOVE::RPRIME)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFF000FFF) | (m_Up & 0x00FFF000)};
+        m_Up = {(m_Up & 0xFF000FFF) | rol((m_Back & 0xF00000FF), 16)};
+        m_Back = {(m_Back & 0x0FFFFF00) | rol((m_Down & 0x00FFF000), 16)};
+        m_Down = {(m_Down & 0xFF000FFF) | (tmp & 0x00FFF000)};
+        m_Right = {rol(m_Right, 8)};
+    }
+    // R2 ROTATION
+    else if (mv == MOVE::RIGHT2)
+    {
+        uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0xFF000FFF) | ror((m_Back & 0xF00000FF), 16)};
+        m_Back = {(m_Back & 0x0FFFFF00) | ror((tmp & 0x00FFF000), 16)};
+        tmp = {m_Up};
+        m_Up = {(m_Up & 0xFF000FFF) | (m_Down & 0x00FFF000)};
+        m_Down = {(m_Down & 0xFF000FFF) | (tmp & 0x00FFF000)};
+        m_Right = {ror(m_Right, 16)};
+    }
 
-//	Back Half-Turn
-void Cube::B2()
-{
-    uint32_t tmp{m_Up};
-    m_Up = {(m_Up & 0x000FFFFF) | rol((m_Down & 0x0000FFF0), 16)};
-    m_Down = {(m_Down & 0xFFFF000F) | rol((tmp & 0xFFF00000), 16)};
-    tmp = {m_Left};
-    m_Left = {(m_Left & 0x0FFFFF00) | rol((m_Right & 0x00FFF000), 16)};
-    m_Right = {(m_Right & 0xFF000FFF) | rol((tmp & 0xF00000FF), 16)};
-    m_Back = {ror(m_Back, 16)};
-}
-
-//	Up Quarter-Turn Clockwise
-void Cube::U()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x000FFFFF) | (m_Right & 0xFFF00000)};
-    m_Right = {(m_Right & 0x000FFFFF) | (m_Back & 0xFFF00000)};
-    m_Back = {(m_Back & 0x000FFFFF) | (m_Left & 0xFFF00000)};
-    m_Left = {(m_Left & 0x000FFFFF) | (tmp & 0xFFF00000)};
-    m_Up = {ror(m_Up, 8)};
-}
-
-//	Up Quarter-Turn Anti-Clockwise
-void Cube::Uprime()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x000FFFFF) | (m_Left & 0xFFF00000)};
-    m_Left = {(m_Left & 0x000FFFFF) | (m_Back & 0xFFF00000)};
-    m_Back = {(m_Back & 0x000FFFFF) | (m_Right & 0xFFF00000)};
-    m_Right = {(m_Right & 0x000FFFFF) | (tmp & 0xFFF00000)};
-    m_Up = {rol(m_Up, 8)};
-}
-
-//	Up Half-Turn
-void Cube::U2()
-{
-    uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x000FFFFF) | (m_Back & 0xFFF00000)};
-    m_Back = {(m_Back & 0x000FFFFF) | (tmp & 0xFFF00000)};
-    tmp = {m_Left};
-    m_Left = {(m_Left & 0x000FFFFF) | (m_Right & 0xFFF00000)};
-    m_Right = {(m_Right & 0x000FFFFF) | (tmp & 0xFFF00000)};
-    m_Up = {ror(m_Up, 16)};
-}
-
-//	Down Quarter-Turn Clockwise
-void Cube::D()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFFFF000F) | (m_Left & 0x0000FFF0)};
-    m_Left = {(m_Left & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
-    m_Back = {(m_Back & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
-    m_Right = {(m_Right & 0xFFFF000F) | (tmp & 0x0000FFF0)};
-    m_Down = {ror(m_Down, 8)};
-}
-
-//	Down Quarter-Turn Anti-Clockwise
-void Cube::Dprime()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
-    m_Right = {(m_Right & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
-    m_Back = {(m_Back & 0xFFFF000F) | (m_Left & 0x0000FFF0)};
-    m_Left = {(m_Left & 0xFFFF000F) | (tmp & 0x0000FFF0)};
-    m_Down = {rol(m_Down, 8)};
-}
-
-//	Down Half-Turn
-void Cube::D2()
-{
-    uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFFFF000F) | (m_Back & 0x0000FFF0)};
-    m_Back = {(m_Back & 0xFFFF000F) | (tmp & 0x0000FFF0)};
-    tmp = {m_Left};
-    m_Left = {(m_Left & 0xFFFF000F) | (m_Right & 0x0000FFF0)};
-    m_Right = {(m_Right & 0xFFFF000F) | (tmp & 0x0000FFF0)};
-    m_Down = {ror(m_Down, 16)};
-}
-
-// Right Quarter-Turn Clockwise
-void Cube::R()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFF000FFF) | (m_Down & 0x00FFF000)};
-    m_Down = {(m_Down & 0xFF000FFF) | ror((m_Back & 0xF00000FF), 16)};
-    m_Back = {(m_Back & 0x0FFFFF00) | ror((m_Up & 0x00FFF000), 16)};
-    m_Up = {(m_Up & 0xFF000FFF) | (tmp & 0x00FFF000)};
-    m_Right = {ror(m_Right, 8)};
-}
-
-//	Right Quarter-Turn Anti-Clockwise
-void Cube::Rprime()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFF000FFF) | (m_Up & 0x00FFF000)};
-    m_Up = {(m_Up & 0xFF000FFF) | rol((m_Back & 0xF00000FF), 16)};
-    m_Back = {(m_Back & 0x0FFFFF00) | rol((m_Down & 0x00FFF000), 16)};
-    m_Down = {(m_Down & 0xFF000FFF) | (tmp & 0x00FFF000)};
-    m_Right = {rol(m_Right, 8)};
-}
-
-//	Right Half-Turn
-void Cube::R2()
-{
-    uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0xFF000FFF) | ror((m_Back & 0xF00000FF), 16)};
-    m_Back = {(m_Back & 0x0FFFFF00) | ror((tmp & 0x00FFF000), 16)};
-    tmp = {m_Up};
-    m_Up = {(m_Up & 0xFF000FFF) | (m_Down & 0x00FFF000)};
-    m_Down = {(m_Down & 0xFF000FFF) | (tmp & 0x00FFF000)};
-    m_Right = {ror(m_Right, 16)};
-}
-
-//	Left Quarter-Turn Clockwise
-void Cube::L()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x0FFFFF00) | (m_Up & 0xF00000FF)};
-    m_Up = {(m_Up & 0x0FFFFF00) | ror((m_Back & 0x00FFF000), 16)};
-    m_Back = {(m_Back & 0xFF000FFF) | ror((m_Down & 0xF00000FF), 16)};
-    m_Down = {(m_Down & 0x0FFFFF00) | (tmp & 0xF00000FF)};
-    m_Left = {ror(m_Left, 8)};
-}
-
-//  Left Quarter-Turn Anti-Clockwise
-void Cube::Lprime()
-{
-    const uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x0FFFFF00) | (m_Down & 0xF00000FF)};
-    m_Down = {(m_Down & 0x0FFFFF00) | rol((m_Back & 0x00FFF000), 16)};
-    m_Back = {(m_Back & 0xFF000FFF) | rol((m_Up & 0xF00000FF), 16)};
-    m_Up = {(m_Up & 0x0FFFFF00) | (tmp & 0xF00000FF)};
-    m_Left = {rol(m_Left, 8)};
-}
-
-//  Left Half-Turn
-void Cube::L2()
-{
-    uint32_t tmp{m_Front};
-    m_Front = {(m_Front & 0x0FFFFF00) | ror((m_Back & 0x00FFF000), 16)};
-    m_Back = {(m_Back & 0xFF000FFF) | ror((tmp & 0xF00000FF), 16)};
-    tmp = {m_Up};
-    m_Up = {(m_Up & 0x0FFFFF00) | (m_Down & 0xF00000FF)};
-    m_Down = {(m_Down & 0x0FFFFF00) | (tmp & 0xF00000FF)};
-    m_Left = {ror(m_Left, 16)};
+    // L ROTATION
+    else if (mv == MOVE::LEFT)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x0FFFFF00) | (m_Up & 0xF00000FF)};
+        m_Up = {(m_Up & 0x0FFFFF00) | ror((m_Back & 0x00FFF000), 16)};
+        m_Back = {(m_Back & 0xFF000FFF) | ror((m_Down & 0xF00000FF), 16)};
+        m_Down = {(m_Down & 0x0FFFFF00) | (tmp & 0xF00000FF)};
+        m_Left = {ror(m_Left, 8)};
+    }
+    // L' ROTATION
+    else if (mv == MOVE::LPRIME)
+    {
+        const uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x0FFFFF00) | (m_Down & 0xF00000FF)};
+        m_Down = {(m_Down & 0x0FFFFF00) | rol((m_Back & 0x00FFF000), 16)};
+        m_Back = {(m_Back & 0xFF000FFF) | rol((m_Up & 0xF00000FF), 16)};
+        m_Up = {(m_Up & 0x0FFFFF00) | (tmp & 0xF00000FF)};
+        m_Left = {rol(m_Left, 8)};
+    }
+    // L2 ROTATION
+    else if (mv == MOVE::LEFT2)
+    {
+        uint32_t tmp{m_Front};
+        m_Front = {(m_Front & 0x0FFFFF00) | ror((m_Back & 0x00FFF000), 16)};
+        m_Back = {(m_Back & 0xFF000FFF) | ror((tmp & 0xF00000FF), 16)};
+        tmp = {m_Up};
+        m_Up = {(m_Up & 0x0FFFFF00) | (m_Down & 0xF00000FF)};
+        m_Down = {(m_Down & 0x0FFFFF00) | (tmp & 0xF00000FF)};
+        m_Left = {ror(m_Left, 16)};
+    }
+    else
+        std::cerr << "Invalid rotation: " << mv << std::endl;
 }
 
 void Cube::ShowCube() const
