@@ -1,23 +1,35 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "pch.h"
+#include <stdint.h>
 
 class Cube
 {
-
     /*		COLOR SCHEME
      *
-     *	YELLOW	:	0	0000
-     *	WHITE	:	1	0001
-     *	GREEN	:	2	0010
-     *	BLUE	:	3	0011
-     *	ORANGE	:	4	0100
-     *	RED		:	5	0101
+     *  FACE    BIN DEC
+     *  ----------------
+     *	UP	     0  0000
+     *	DOWN     1  0001
+     *	FRONT    2  0010
+     *	BACK     3  0011
+     *	RIGHT    4  0100
+     *	LEFT     5  0101
      */
 
-public:
-    enum COLOR
+  public:
+
+    enum class FACE : uint8_t
+    {
+        UP = 0,
+        DOWN,
+        FRONT,
+        BACK,
+        RIGHT,
+        LEFT
+    };
+
+    enum class COLOR : uint8_t
     {
         YELLOW = 0,
         WHITE,
@@ -27,7 +39,7 @@ public:
         RED
     };
 
-    enum MOVE
+    enum class MOVE : uint8_t
     {
         UP = 0,
         UPRIME,
@@ -54,9 +66,7 @@ public:
         LEFT2
     };
 
-    Cube(uint32_t up = 0x00000000, uint32_t down = 0x11111111,
-         uint32_t front = 0x22222222, uint32_t back = 0x33333333,
-         uint32_t right = 0x44444444, uint32_t left = 0x55555555);
+    Cube(uint32_t up = 0x00000000, uint32_t down = 0x11111111, uint32_t front = 0x22222222, uint32_t back = 0x33333333, uint32_t right = 0x44444444, uint32_t left = 0x55555555);
 
     void Twist(MOVE mv);
 
@@ -66,7 +76,8 @@ public:
 
     bool IsSolved();
 
-private:
+  private:
+
     uint32_t m_Up;
     uint32_t m_Down;
     uint32_t m_Front;

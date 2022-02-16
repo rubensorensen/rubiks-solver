@@ -3,9 +3,12 @@
 
 #include "cube.h"
 
+#include <memory>
+
 class CubeHandler
 {
-public:
+  public:
+
     CubeHandler(std::shared_ptr<Cube> cube);
     ~CubeHandler() = default;
 
@@ -15,7 +18,8 @@ public:
     void PrintEdges();
     bool EdgesOriented();
 
-private:
+  private:
+
     std::shared_ptr<Cube> m_Cube;
 };
 
