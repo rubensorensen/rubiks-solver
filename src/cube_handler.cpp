@@ -1,4 +1,4 @@
-#include "../include/cube_handler.h"
+#include "../include/cube_handler.hpp"
 
 #include <algorithm>
 #include <fstream>
@@ -46,31 +46,6 @@ void CubeHandler::RotateFromFile(const char* filepath)
     }
     else
         std::cerr << "[ERROR] File path '" << filepath << "' not valid" << std::endl;
-}
-
-void CubeHandler::PrintEdges()
-{
-    std::array<uint32_t, 4> upEdges{ ((m_Cube->m_Up >> 24) & 0x0000000F), ((m_Cube->m_Up >> 16) & 0x0000000F), ((m_Cube->m_Up >> 8) & 0x0000000F), ((m_Cube->m_Up >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> downEdges{ ((m_Cube->m_Down >> 24) & 0x0000000F), ((m_Cube->m_Down >> 16) & 0x0000000F), ((m_Cube->m_Down >> 8) & 0x0000000F), ((m_Cube->m_Down >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> frontEdges{ ((m_Cube->m_Front >> 24) & 0x0000000F), ((m_Cube->m_Front >> 16) & 0x0000000F), ((m_Cube->m_Front >> 8) & 0x0000000F), ((m_Cube->m_Front >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> backEdges{ ((m_Cube->m_Back >> 24) & 0x0000000F), ((m_Cube->m_Back >> 16) & 0x0000000F), ((m_Cube->m_Back >> 8) & 0x0000000F), ((m_Cube->m_Back >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> rightEdges{ ((m_Cube->m_Right >> 24) & 0x0000000F), ((m_Cube->m_Right >> 16) & 0x0000000F), ((m_Cube->m_Right >> 8) & 0x0000000F), ((m_Cube->m_Right >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> leftEdges{ ((m_Cube->m_Left >> 24) & 0x0000000F), ((m_Cube->m_Left >> 16) & 0x0000000F), ((m_Cube->m_Left >> 8) & 0x0000000F), ((m_Cube->m_Left >> 0) & 0x0000000F) };
-
-    std::array<std::array<uint32_t, 4>, 6> faces{ upEdges, downEdges, frontEdges, backEdges, rightEdges, leftEdges };
-    for (auto& f : faces)
-    {
-        std::cout << "2: " << f[0] << std::endl;
-        std::cout << "4: " << f[1] << std::endl;
-        std::cout << "6: " << f[2] << std::endl;
-        std::cout << "8: " << f[3] << std::endl;
-        std::cout << std::endl;
-    }
 }
 
 bool CubeHandler::EdgesOriented()

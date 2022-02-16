@@ -1,7 +1,7 @@
 #ifndef THISTLETHWAITE_H
 #define THISTLETHWAITE_H
 
-#include "cube.h"
+#include "cube.hpp"
 
 namespace tw
 {

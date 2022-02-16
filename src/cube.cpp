@@ -1,4 +1,4 @@
-#include "../include/cube.h"
+#include "../include/cube.hpp"
 
 #include <bitset>
 #include <iostream>
@@ -224,41 +224,40 @@ void Cube::Twist(MOVE mv)
         std::cerr << "Invalid rotation: " << static_cast<uint8_t>(mv) << std::endl;
 }
 
-void Cube::ShowCube() const
+void Cube::Display() const
 {
     using std::cout;
     using std::endl;
 
-    PrintVals();
+    const char* table = "YWGBOR";
 
-    cout << "        " << GetColor(m_Up >> 28) << " " << GetColor(m_Up >> 24 & 0x0F) << " " << GetColor(m_Up >> 20 & 0x00F) << endl;
-    cout << "        " << GetColor(m_Up & 0x0000000F) << " " << 'Y' << " " << GetColor(m_Up >> 16 & 0x000F) << endl;
-    cout << "        " << GetColor(m_Up >> 4 & 0x000000F) << " " << GetColor(m_Up >> 8 & 0x00000F) << " " << GetColor(m_Up >> 12 & 0x0000F) << endl;
-
-    cout << endl;
-
-    cout << " " << GetColor(m_Left >> 28) << " " << GetColor(m_Left >> 24 & 0x0F) << " " << GetColor(m_Left >> 20 & 0x00F) << "  " << GetColor(m_Front >> 28) << " " << GetColor(m_Front >> 24 & 0x0F)
-         << " " << GetColor(m_Front >> 20 & 0x00F) << "  " << GetColor(m_Right >> 28) << " " << GetColor(m_Right >> 24 & 0x0F) << " " << GetColor(m_Right >> 20 & 0x00F) << "  "
-         << GetColor(m_Back >> 28) << " " << GetColor(m_Back >> 24 & 0x0F) << " " << GetColor(m_Back >> 20 & 0x00F) << endl;
-
-    cout << " " << GetColor(m_Left & 0x0000000F) << " " << 'R' << " " << GetColor(m_Left >> 16 & 0x000F) << "  " << GetColor(m_Front & 0x0000000F) << " " << 'G' << " "
-         << GetColor(m_Front >> 16 & 0x000F) << "  " << GetColor(m_Right & 0x0000000F) << " " << 'O' << " " << GetColor(m_Right >> 16 & 0x000F) << "  " << GetColor(m_Back & 0x0000000F) << " " << 'B'
-         << " " << GetColor(m_Back >> 16 & 0x000F) << endl;
-
-    cout << " " << GetColor(m_Left >> 4 & 0x000000F) << " " << GetColor(m_Left >> 8 & 0x00000F) << " " << GetColor(m_Left >> 12 & 0x0000F) << "  " << GetColor(m_Front >> 4 & 0x000000F) << " "
-         << GetColor(m_Front >> 8 & 0x00000F) << " " << GetColor(m_Front >> 12 & 0x0000F) << "  " << GetColor(m_Right >> 4 & 0x000000F) << " " << GetColor(m_Right >> 8 & 0x00000F) << " "
-         << GetColor(m_Right >> 12 & 0x0000F) << "  " << GetColor(m_Back >> 4 & 0x000000F) << " " << GetColor(m_Back >> 8 & 0x00000F) << " " << GetColor(m_Back >> 12 & 0x0000F) << endl;
+    cout << "        " << table[m_Up >> 28] << " " << table[m_Up >> 24 & 0x0F] << " " << table[m_Up >> 20 & 0x00F] << endl;
+    cout << "        " << table[m_Up & 0x0000000F] << " " << 'Y' << " " << table[m_Up >> 16 & 0x000F] << endl;
+    cout << "        " << table[m_Up >> 4 & 0x000000F] << " " << table[m_Up >> 8 & 0x00000F] << " " << table[m_Up >> 12 & 0x0000F] << endl;
 
     cout << endl;
 
-    cout << "        " << GetColor(m_Down >> 28) << " " << GetColor(m_Down >> 24 & 0x0F) << " " << GetColor(m_Down >> 20 & 0x00F) << endl;
-    cout << "        " << GetColor(m_Down & 0x0000000F) << " " << 'W' << " " << GetColor(m_Down >> 16 & 0x000F) << endl;
-    cout << "        " << GetColor(m_Down >> 4 & 0x000000F) << " " << GetColor(m_Down >> 8 & 0x00000F) << " " << GetColor(m_Down >> 12 & 0x0000F) << endl;
+    cout << " " << table[m_Left >> 28] << " " << table[m_Left >> 24 & 0x0F] << " " << table[m_Left >> 20 & 0x00F] << "  " << table[m_Front >> 28] << " " << table[m_Front >> 24 & 0x0F] << " "
+         << table[m_Front >> 20 & 0x00F] << "  " << table[m_Right >> 28] << " " << table[m_Right >> 24 & 0x0F] << " " << table[m_Right >> 20 & 0x00F] << "  " << table[m_Back >> 28] << " "
+         << table[m_Back >> 24 & 0x0F] << " " << table[m_Back >> 20 & 0x00F] << endl;
+
+    cout << " " << table[m_Left & 0x0000000F] << " " << 'R' << " " << table[m_Left >> 16 & 0x000F] << "  " << table[m_Front & 0x0000000F] << " " << 'G' << " " << table[m_Front >> 16 & 0x000F] << "  "
+         << table[m_Right & 0x0000000F] << " " << 'O' << " " << table[m_Right >> 16 & 0x000F] << "  " << table[m_Back & 0x0000000F] << " " << 'B' << " " << table[m_Back >> 16 & 0x000F] << endl;
+
+    cout << " " << table[m_Left >> 4 & 0x000000F] << " " << table[m_Left >> 8 & 0x00000F] << " " << table[m_Left >> 12 & 0x0000F] << "  " << table[m_Front >> 4 & 0x000000F] << " "
+         << table[m_Front >> 8 & 0x00000F] << " " << table[m_Front >> 12 & 0x0000F] << "  " << table[m_Right >> 4 & 0x000000F] << " " << table[m_Right >> 8 & 0x00000F] << " "
+         << table[m_Right >> 12 & 0x0000F] << "  " << table[m_Back >> 4 & 0x000000F] << " " << table[m_Back >> 8 & 0x00000F] << " " << table[m_Back >> 12 & 0x0000F] << endl;
+
+    cout << endl;
+
+    cout << "        " << table[m_Down >> 28] << " " << table[m_Down >> 24 & 0x0F] << " " << table[m_Down >> 20 & 0x00F] << endl;
+    cout << "        " << table[m_Down & 0x0000000F] << " " << 'W' << " " << table[m_Down >> 16 & 0x000F] << endl;
+    cout << "        " << table[m_Down >> 4 & 0x000000F] << " " << table[m_Down >> 8 & 0x00000F] << " " << table[m_Down >> 12 & 0x0000F] << endl;
 
     cout << endl;
 }
 
-void Cube::PrintVals() const
+void Cube::Dump() const
 {
 
     using std::cout;
@@ -271,27 +270,6 @@ void Cube::PrintVals() const
     cout << "Right: " << std::bitset<32>(m_Right) << endl;
     cout << "Left:  " << std::bitset<32>(m_Left) << endl;
     cout << endl;
-}
-
-char Cube::GetColor(uint32_t num) const
-{
-    switch (num)
-    {
-        case 0:
-            return 'Y';
-        case 1:
-            return 'W';
-        case 2:
-            return 'G';
-        case 3:
-            return 'B';
-        case 4:
-            return 'O';
-        case 5:
-            return 'R';
-        default:
-            return '?';
-    }
 }
 
 bool Cube::IsSolved()

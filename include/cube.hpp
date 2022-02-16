@@ -5,16 +5,16 @@
 
 class Cube
 {
-    /*		COLOR SCHEME
-     *
-     *  FACE    BIN DEC
-     *  ----------------
-     *	UP	     0  0000
-     *	DOWN     1  0001
-     *	FRONT    2  0010
-     *	BACK     3  0011
-     *	RIGHT    4  0100
-     *	LEFT     5  0101
+    /*
+          COLOR SCHEME
+        FACE    DEC BIN
+        ----------------
+        UP      0   0000
+        DOWN    1   0001
+        FRONT   2   0010
+        BACK    3   0011
+        RIGHT   4   0100
+        LEFT    5   0101
      */
 
   public:
@@ -70,9 +70,8 @@ class Cube
 
     void Twist(MOVE mv);
 
-    void PrintVals() const;
-    void ShowCube() const;
-    char GetColor(uint32_t num) const;
+    void Dump() const;
+    void Display() const;
 
     bool IsSolved();
 

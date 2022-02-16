@@ -1,4 +1,4 @@
-#include "../include/thistlethwaite.h"
+#include "../include/thistlethwaite.hpp"
 
 #include <iostream>
 

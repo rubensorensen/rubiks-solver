@@ -1,7 +1,7 @@
 #ifndef CUBE_HANDLER_H
 #define CUBE_HANDLER_H
 
-#include "cube.h"
+#include "cube.hpp"
 
 #include <memory>
 
@@ -15,7 +15,6 @@ class CubeHandler
     void ShuffleCube(uint8_t n);
     void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
-    void PrintEdges();
     bool EdgesOriented();
 
   private:
