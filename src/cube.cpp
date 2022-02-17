@@ -231,28 +231,43 @@ void Cube::Display() const
 
     const char* table = "YWGBOR";
 
-    cout << "        " << table[m_Up >> 28] << " " << table[m_Up >> 24 & 0x0F] << " " << table[m_Up >> 20 & 0x00F] << endl;
-    cout << "        " << table[m_Up & 0x0000000F] << " " << 'Y' << " " << table[m_Up >> 16 & 0x000F] << endl;
-    cout << "        " << table[m_Up >> 4 & 0x000000F] << " " << table[m_Up >> 8 & 0x00000F] << " " << table[m_Up >> 12 & 0x0000F] << endl;
+    cout << "        " << table[m_Up >> 28] << " " << table[m_Up >> 24 & 0x0F] << " "
+         << table[m_Up >> 20 & 0x00F] << endl;
+    cout << "        " << table[m_Up & 0x0000000F] << " " << 'Y' << " "
+         << table[m_Up >> 16 & 0x000F] << endl;
+    cout << "        " << table[m_Up >> 4 & 0x000000F] << " " << table[m_Up >> 8 & 0x00000F] << " "
+         << table[m_Up >> 12 & 0x0000F] << endl;
 
     cout << endl;
 
-    cout << " " << table[m_Left >> 28] << " " << table[m_Left >> 24 & 0x0F] << " " << table[m_Left >> 20 & 0x00F] << "  " << table[m_Front >> 28] << " " << table[m_Front >> 24 & 0x0F] << " "
-         << table[m_Front >> 20 & 0x00F] << "  " << table[m_Right >> 28] << " " << table[m_Right >> 24 & 0x0F] << " " << table[m_Right >> 20 & 0x00F] << "  " << table[m_Back >> 28] << " "
+    cout << " " << table[m_Left >> 28] << " " << table[m_Left >> 24 & 0x0F] << " "
+         << table[m_Left >> 20 & 0x00F] << "  " << table[m_Front >> 28] << " "
+         << table[m_Front >> 24 & 0x0F] << " " << table[m_Front >> 20 & 0x00F] << "  "
+         << table[m_Right >> 28] << " " << table[m_Right >> 24 & 0x0F] << " "
+         << table[m_Right >> 20 & 0x00F] << "  " << table[m_Back >> 28] << " "
          << table[m_Back >> 24 & 0x0F] << " " << table[m_Back >> 20 & 0x00F] << endl;
 
-    cout << " " << table[m_Left & 0x0000000F] << " " << 'R' << " " << table[m_Left >> 16 & 0x000F] << "  " << table[m_Front & 0x0000000F] << " " << 'G' << " " << table[m_Front >> 16 & 0x000F] << "  "
-         << table[m_Right & 0x0000000F] << " " << 'O' << " " << table[m_Right >> 16 & 0x000F] << "  " << table[m_Back & 0x0000000F] << " " << 'B' << " " << table[m_Back >> 16 & 0x000F] << endl;
+    cout << " " << table[m_Left & 0x0000000F] << " " << 'R' << " " << table[m_Left >> 16 & 0x000F]
+         << "  " << table[m_Front & 0x0000000F] << " " << 'G' << " "
+         << table[m_Front >> 16 & 0x000F] << "  " << table[m_Right & 0x0000000F] << " " << 'O'
+         << " " << table[m_Right >> 16 & 0x000F] << "  " << table[m_Back & 0x0000000F] << " " << 'B'
+         << " " << table[m_Back >> 16 & 0x000F] << endl;
 
-    cout << " " << table[m_Left >> 4 & 0x000000F] << " " << table[m_Left >> 8 & 0x00000F] << " " << table[m_Left >> 12 & 0x0000F] << "  " << table[m_Front >> 4 & 0x000000F] << " "
-         << table[m_Front >> 8 & 0x00000F] << " " << table[m_Front >> 12 & 0x0000F] << "  " << table[m_Right >> 4 & 0x000000F] << " " << table[m_Right >> 8 & 0x00000F] << " "
-         << table[m_Right >> 12 & 0x0000F] << "  " << table[m_Back >> 4 & 0x000000F] << " " << table[m_Back >> 8 & 0x00000F] << " " << table[m_Back >> 12 & 0x0000F] << endl;
+    cout << " " << table[m_Left >> 4 & 0x000000F] << " " << table[m_Left >> 8 & 0x00000F] << " "
+         << table[m_Left >> 12 & 0x0000F] << "  " << table[m_Front >> 4 & 0x000000F] << " "
+         << table[m_Front >> 8 & 0x00000F] << " " << table[m_Front >> 12 & 0x0000F] << "  "
+         << table[m_Right >> 4 & 0x000000F] << " " << table[m_Right >> 8 & 0x00000F] << " "
+         << table[m_Right >> 12 & 0x0000F] << "  " << table[m_Back >> 4 & 0x000000F] << " "
+         << table[m_Back >> 8 & 0x00000F] << " " << table[m_Back >> 12 & 0x0000F] << endl;
 
     cout << endl;
 
-    cout << "        " << table[m_Down >> 28] << " " << table[m_Down >> 24 & 0x0F] << " " << table[m_Down >> 20 & 0x00F] << endl;
-    cout << "        " << table[m_Down & 0x0000000F] << " " << 'W' << " " << table[m_Down >> 16 & 0x000F] << endl;
-    cout << "        " << table[m_Down >> 4 & 0x000000F] << " " << table[m_Down >> 8 & 0x00000F] << " " << table[m_Down >> 12 & 0x0000F] << endl;
+    cout << "        " << table[m_Down >> 28] << " " << table[m_Down >> 24 & 0x0F] << " "
+         << table[m_Down >> 20 & 0x00F] << endl;
+    cout << "        " << table[m_Down & 0x0000000F] << " " << 'W' << " "
+         << table[m_Down >> 16 & 0x000F] << endl;
+    cout << "        " << table[m_Down >> 4 & 0x000000F] << " " << table[m_Down >> 8 & 0x00000F]
+         << " " << table[m_Down >> 12 & 0x0000F] << endl;
 
     cout << endl;
 }
@@ -274,5 +289,6 @@ void Cube::Dump() const
 
 bool Cube::IsSolved()
 {
-    return m_Up == 0x000000 && m_Down == 0x11111111 && m_Front == 0x22222222 && m_Back == 0x33333333 && m_Right == 0x44444444 && m_Left == 0x55555555;
+    return m_Up == 0x000000 && m_Down == 0x11111111 && m_Front == 0x22222222 &&
+           m_Back == 0x33333333 && m_Right == 0x44444444 && m_Left == 0x55555555;
 }

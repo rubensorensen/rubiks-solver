@@ -9,7 +9,6 @@ AlignAfterOpenBracket:                  Align
 AlignArrayOfStructures:                 Left
 AlignConsecutiveAssignments:            Consecutive
 AlignConsecutiveBitFields:              Consecutive
-AlignConsecutiveDeclarations:           Consecutive
 AlignConsecutiveMacros:                 Consecutive
 AlignEscapedNewlines:                   Left
 AlignOperands:                          Align
@@ -35,7 +34,7 @@ BreakBeforeTernaryOperators:            false
 BreakConstructorInitializers:           BeforeColon
 BreakInheritanceList:                   AfterComma
 BreakStringLiterals:                    true
-ColumnLimit:                            200
+ColumnLimit:                            100
 CompactNamespaces:                      true
 BreakBeforeBraces:                      Custom
 BraceWrapping:

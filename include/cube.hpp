@@ -66,7 +66,12 @@ class Cube
         LEFT2
     };
 
-    Cube(uint32_t up = 0x00000000, uint32_t down = 0x11111111, uint32_t front = 0x22222222, uint32_t back = 0x33333333, uint32_t right = 0x44444444, uint32_t left = 0x55555555);
+    Cube(uint32_t up    = 0x00000000,
+         uint32_t down  = 0x11111111,
+         uint32_t front = 0x22222222,
+         uint32_t back  = 0x33333333,
+         uint32_t right = 0x44444444,
+         uint32_t left  = 0x55555555);
 
     void Twist(MOVE mv);
 
@@ -74,6 +79,12 @@ class Cube
     void Display() const;
 
     bool IsSolved();
+
+    inline bool operator==(const Cube& rhs) const
+    {
+        return m_Up == rhs.m_Up && m_Down == rhs.m_Down && m_Front == rhs.m_Front &&
+               m_Back == rhs.m_Back && m_Right == rhs.m_Right && m_Left == rhs.m_Left;
+    }
 
   private:
 
@@ -85,6 +96,7 @@ class Cube
     uint32_t m_Left;
 
     friend class CubeHandler;
+    friend class BreadthFirstSearcher;
 };
 
 #endif
