@@ -47,6 +47,6 @@ $(BIN_PATH)/$(BIN) : $(OBJ)
 
 -include $(DEPS)
 
-$(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
+$(BUILD_PATH)/%.o : $(SRC_PATH)/%.$(SRC_EXT)
 	@echo "Compiling: $< -> $@"
 	$(CXX) $(CXXFLAGS) $(INCL_PATH) -MP -MMD -c $< -o $@

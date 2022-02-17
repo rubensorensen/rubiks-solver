@@ -1,9 +1,5 @@
-.idea/
-.cache/
-cmake-build-release/
-cmake-build-debug/
 build/
+.vscode
 tags
-bin/
-compile_commands.json
-config.h
+pch.h.gch
+cube_solver
