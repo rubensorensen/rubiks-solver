@@ -7,74 +7,117 @@
 #include <stack>
 
 BreadthFirstSearcher::BreadthFirstSearcher(const std::vector<Cube::MOVE>& moves,
-                                           bool (*goal)(std::shared_ptr<CubeHandler> handler))
+                                           bool (*goal)(std::shared_ptr<Vertex> vertex))
     : m_AllowedMoves(moves), GoalIsSatisfied(goal), m_Timer(Timer())
 {}
 
-void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<CubeHandler> handler)
+void BreadthFirstSearcher::FindMoves(std::shared_ptr<Vertex> vertex, std::vector<Cube::MOVE>& moves)
 {
-    uint64_t hashSz{ 1610612741 };
+    std::stack<Cube::MOVE> stack;
+    while (vertex->GetParent().first != nullptr)
+    {
+        stack.push(vertex->GetParent().second);
+        vertex = vertex->GetParent().first;
+    }
+
+    while (!stack.empty())
+    {
+        moves.push_back(stack.top());
+        stack.pop();
+    }
+}
+
+void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<Vertex> vertex,
+                                         std::vector<Cube::MOVE>& moves)
+{
+    uint64_t hashSz{ 12582917 };
 
     std::cout << "BFS Started" << std::endl;
     uint64_t numVisited = 0;
     uint64_t level      = 0;
     m_Timer.Start();
-    std::queue<std::shared_ptr<CubeHandler>> q;
-    std::unordered_multimap<uint32_t, std::shared_ptr<CubeHandler>> umm;
-    umm.insert({ handler->HashCube(hashSz), handler });
-    q.push(handler);
-    while (!q.empty())
+    std::queue<std::shared_ptr<Vertex>> queue;
+    std::unordered_multimap<uint32_t, std::shared_ptr<Vertex>> map;
+    queue.push(vertex);
+    while (!queue.empty())
     {
-        std::shared_ptr<CubeHandler> h{ q.front() };
-        q.pop();
-        if (GoalIsSatisfied(h))
+        std::shared_ptr<Vertex> front = queue.front();
+        queue.pop();
+        ++numVisited;
+        if (GoalIsSatisfied(front))
         {
             m_Timer.Stop();
             std::cout << "BFS: Found Goal!" << std::endl;
-            std::cout << "Vertices Visited: " << numVisited << std::endl;
-            std::cout << "Levels searched: " << level << std::endl;
-            std::cout << "Multimap size: " << umm.size() << std::endl;
+            std::cout << "Unique Vertices Visited: " << numVisited << std::endl;
             std::cout << "Elapsed time: " << m_Timer.Seconds() << 's' << std::endl;
 
-            std::stack<Cube::MOVE> s;
-            while (h->m_Parent.first != nullptr)
-            {
-                s.push(h->m_Parent.second);
-                h = h->m_Parent.first;
-            }
-
-            std::vector<Cube::MOVE> v;
-            while (!s.empty())
-            {
-                v.push_back(s.top());
-                s.pop();
-            }
-
-            const char* mv[] = { "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2",
-                                 "B", "B'", "B2", "R", "R'", "R2", "L", "L'", "L2" };
-
-            for (auto& m : v)
-                std::cout << mv[(uint32_t)m] << ' ';
-            std::cout << std::endl;
-
+            FindMoves(front, moves);
             return;
         }
-        std::vector<std::shared_ptr<CubeHandler>> neighbors{ h->GetNeighbors(m_AllowedMoves) };
-        for (auto& n : neighbors)
+        std::vector<std::shared_ptr<Vertex>> neighbors{ front->GetNeighbors(m_AllowedMoves) };
+        for (auto& neighbor : neighbors)
         {
+            uint32_t hash = neighbor->GetKey(hashSz);
             bool visited{ false };
-            auto iters{ umm.equal_range(n->HashCube(hashSz)) };
+            auto iters{ map.equal_range(hash) };
             for (auto it{ iters.first }; it != iters.second; ++it)
-                if (n->GetCube() == it->second->GetCube())
+                if (*(neighbor->GetCube()) == *(it->second->GetCube()))
+                {
                     visited = true;
+                    break;
+                }
             if (!visited)
             {
-                ++numVisited;
-                umm.insert({ n->HashCube(hashSz), n });
-                q.push(n);
+                map.insert({ hash, neighbor });
+                queue.push(neighbor);
             }
         }
         ++level;
     }
     std::cerr << "[ERROR] BFS failed, queue empty" << std::endl;
+}
+
+BreadthFirstSearcher::Vertex::Vertex(std::shared_ptr<Cube> cube)
+    : m_Cube(cube), m_Parent({ nullptr, Cube::MOVE::UP })
+{}
+
+std::vector<std::shared_ptr<BreadthFirstSearcher::Vertex>>
+BreadthFirstSearcher::Vertex::GetNeighbors(std::vector<Cube::MOVE> moves)
+{
+    std::vector<std::shared_ptr<Vertex>> neighbors;
+    for (auto move : moves)
+    {
+        std::shared_ptr<Vertex> vertex = std::make_shared<Vertex>(
+            std::make_shared<Cube>(m_Cube->m_Up, m_Cube->m_Down, m_Cube->m_Front, m_Cube->m_Back,
+                                   m_Cube->m_Right, m_Cube->m_Left));
+        vertex->m_Cube->Twist(move);
+        vertex->m_Parent = { shared_from_this(), move };
+        neighbors.push_back(vertex);
+    }
+    return neighbors;
+}
+
+uint32_t BreadthFirstSearcher::Vertex::GetKey(uint32_t max)
+{
+    uint32_t faces[] = { m_Cube->m_Up,   m_Cube->m_Down,  m_Cube->m_Front,
+                         m_Cube->m_Back, m_Cube->m_Right, m_Cube->m_Left };
+    uint32_t x       = 1;
+
+    for (int8_t i = 0; i < 6; ++i)
+    {
+        x = (x * faces[i]) % max;
+        for (int8_t j = 28; j >= 0; --j)
+        {
+            x = (x * ((((faces[i]) >> j) & 0xf) + 1)) % max;
+            // x ^= x << 13;
+            // x ^= x >> 17;
+            // x ^= x << 5;
+        }
+    }
+
+    return x % max;
+
+    // return (m_Cube->m_Up * m_Cube->m_Down * m_Cube->m_Front * m_Cube->m_Back * m_Cube->m_Right *
+    //         m_Cube->m_Left) %
+    //        max;
 }

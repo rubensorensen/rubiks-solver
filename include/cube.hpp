@@ -2,6 +2,7 @@
 #define CUBE_H
 
 #include <stdint.h>
+#include <string>
 
 class Cube
 {
@@ -78,6 +79,11 @@ class Cube
     void Dump() const;
     void Display() const;
 
+    void Shuffle(uint8_t n);
+    void RotateByString(std::string str);
+    void RotateFromFile(const char* filepath);
+    bool EdgesOriented() const;
+
     bool IsSolved();
 
     inline bool operator==(const Cube& rhs) const
@@ -95,7 +101,6 @@ class Cube
     uint32_t m_Right;
     uint32_t m_Left;
 
-    friend class CubeHandler;
     friend class BreadthFirstSearcher;
 };
 

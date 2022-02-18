@@ -1,12 +1,22 @@
-#ifndef THISTLETHWAITE_H
-#define THISTLETHWAITE_H
+#ifndef THISTLETHWAITE_HPP
+#define THISTLETHWAITE_HPP
 
 #include "cube.hpp"
 
-namespace tw
+#include <memory>
+
+class ThistlethwaiteSolver
 {
-    void thistlethwaite(Cube& cube);
-    void g02g1(Cube& cube);
-}  // namespace tw
+  public:
+
+    ThistlethwaiteSolver(std::shared_ptr<Cube> cube);
+    ~ThistlethwaiteSolver() = default;
+
+    void SolveCube();
+
+  private:
+
+    std::shared_ptr<Cube> m_Cube;
+};
 
 #endif
