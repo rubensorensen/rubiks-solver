@@ -493,3 +493,48 @@ bool Cube::EdgesOriented() const
     // Passed all tests: All edges are oriented correctly
     return true;
 }
+
+bool Cube::CornersOriented() const
+{
+    std::array<uint32_t, 4> rightCorners{ ((m_Right >> 28) & 0x0000000F),
+                                          ((m_Right >> 20) & 0x0000000F),
+                                          ((m_Right >> 12) & 0x0000000F),
+                                          ((m_Right >> 4) & 0x0000000F) };
+
+    std::array<uint32_t, 4> leftCorners{ ((m_Left >> 28) & 0x0000000F),
+                                         ((m_Left >> 20) & 0x0000000F),
+                                         ((m_Left >> 12) & 0x0000000F),
+                                         ((m_Left >> 4) & 0x0000000F) };
+
+    uint8_t count = 0;
+    for (uint32_t c : rightCorners)
+        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+            ++count;
+    for (uint32_t c : leftCorners)
+        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+            ++count;
+
+    return count == 8;
+}
+
+bool Cube::CorrectEdgesInMiddleSlice() const
+{
+
+    std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
+                                        ((m_Right >> 16) & 0x0000000F),
+                                        ((m_Right >> 8) & 0x0000000F),
+                                        ((m_Right >> 0) & 0x0000000F) };
+
+    std::array<uint32_t, 4> leftEdges{ ((m_Left >> 24) & 0x0000000F), ((m_Left >> 16) & 0x0000000F),
+                                       ((m_Left >> 8) & 0x0000000F), ((m_Left >> 0) & 0x0000000F) };
+
+    uint8_t count = 0;
+    for (uint32_t c : rightEdges)
+        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+            ++count;
+    for (uint32_t c : leftEdges)
+        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+            ++count;
+
+    return count == 8;
+}

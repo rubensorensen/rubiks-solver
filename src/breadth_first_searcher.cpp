@@ -27,9 +27,9 @@ void BreadthFirstSearcher::FindMoves(std::shared_ptr<Vertex> vertex, std::vector
     }
 }
 
-void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<Vertex> vertex,
-                                         std::vector<Cube::MOVE>& moves)
+void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<Cube> cube, std::vector<Cube::MOVE>& moves)
 {
+    std::shared_ptr<Vertex> vertex = std::make_shared<Vertex>(cube);
     uint64_t hashSz{ 12582917 };
 
     std::cout << "BFS Started" << std::endl;
@@ -52,6 +52,7 @@ void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<Vertex> vertex,
             std::cout << "Elapsed time: " << m_Timer.Seconds() << 's' << std::endl;
 
             FindMoves(front, moves);
+
             return;
         }
         std::vector<std::shared_ptr<Vertex>> neighbors{ front->GetNeighbors(m_AllowedMoves) };
@@ -80,6 +81,12 @@ void BreadthFirstSearcher::SearchForGoal(std::shared_ptr<Vertex> vertex,
 BreadthFirstSearcher::Vertex::Vertex(std::shared_ptr<Cube> cube)
     : m_Cube(cube), m_Parent({ nullptr, Cube::MOVE::UP })
 {}
+
+BreadthFirstSearcher::Vertex::~Vertex()
+{
+    m_Cube         = nullptr;
+    m_Parent.first = nullptr;
+}
 
 std::vector<std::shared_ptr<BreadthFirstSearcher::Vertex>>
 BreadthFirstSearcher::Vertex::GetNeighbors(std::vector<Cube::MOVE> moves)

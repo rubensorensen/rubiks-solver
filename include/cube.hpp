@@ -83,6 +83,8 @@ class Cube
     void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
     bool EdgesOriented() const;
+    bool CornersOriented() const;
+    bool CorrectEdgesInMiddleSlice() const;
 
     bool IsSolved();
 

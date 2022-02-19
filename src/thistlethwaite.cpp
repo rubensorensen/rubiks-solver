@@ -6,6 +6,11 @@
 
 ThistlethwaiteSolver::ThistlethwaiteSolver(std::shared_ptr<Cube> cube) : m_Cube(cube) {}
 
+ThistlethwaiteSolver::~ThistlethwaiteSolver()
+{
+    m_Cube = nullptr;
+}
+
 void ThistlethwaiteSolver::SolveCube()
 {
 
@@ -42,18 +47,34 @@ void ThistlethwaiteSolver::SolveCube()
     std::cout
         << "Move space: { U, U', U2, D, D', D2, F, F', F2, B, B', B2, R, R', R2, L, L', L2 }\n"
         << std::endl;
-
+    uint32_t solutionSize;
     BreadthFirstSearcher bfs(g0, [](std::shared_ptr<BreadthFirstSearcher::Vertex> vertex) {
         return vertex->GetCube()->EdgesOriented();
     });
-    bfs.SearchForGoal(std::make_shared<BreadthFirstSearcher::Vertex>(m_Cube), solution);
+    bfs.SearchForGoal(m_Cube, solution);
 
-    for (auto& m : solution)
-        m_Cube->Twist(m);
+    for (size_t i = 0; i < solution.size(); ++i)
+        m_Cube->Twist(solution[i]);
+    std::cout << "Current cube state" << std::endl;
+    m_Cube->Dump();
+    solutionSize = solution.size();
+
+    // G1 -> G2
+    std::cout << "G1 -> G2" << std::endl;
+    std::cout << "Move space: { U2, D2, F, F', F2, B, B', B2, R, R', R2, L, L', L2 }\n"
+              << std::endl;
+
+    bfs = BreadthFirstSearcher(g1, [](std::shared_ptr<BreadthFirstSearcher::Vertex> vertex) {
+        return vertex->GetCube()->CornersOriented() &&
+               vertex->GetCube()->CorrectEdgesInMiddleSlice();
+    });
+    bfs.SearchForGoal(m_Cube, solution);
+
+    for (size_t i = solutionSize; i < solution.size(); ++i)
+        m_Cube->Twist(solution[i]);
     std::cout << "Current cube state" << std::endl;
     m_Cube->Dump();
 
-    // G1 -> G2
     // G2 -> G3
     // G3 -> G4
 

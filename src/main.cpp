@@ -2,6 +2,7 @@
 #include "../include/thistlethwaite.hpp"
 
 #include <iostream>
+#include <random>
 
 uint32_t to_uint32(const char* str)
 {
@@ -15,7 +16,7 @@ int main(int argc, char* argv[])
         *cube = Cube(to_uint32(argv[1]), to_uint32(argv[2]), to_uint32(argv[3]), to_uint32(argv[4]),
                      to_uint32(argv[5]), to_uint32(argv[6]));
 
-    cube->Shuffle(25);
+    cube->Shuffle(10);
     ThistlethwaiteSolver ts(cube);
     ts.SolveCube();
 
