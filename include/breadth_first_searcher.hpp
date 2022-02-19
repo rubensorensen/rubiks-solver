@@ -18,7 +18,7 @@ class BreadthFirstSearcher
     BreadthFirstSearcher(const std::vector<Cube::MOVE>& moves,
                          bool (*goal)(std::shared_ptr<Vertex> vertex));
     ~BreadthFirstSearcher() = default;
-    void SearchForGoal(std::shared_ptr<Vertex> vertex, std::vector<Cube::MOVE>& moves);
+    void SearchForGoal(std::shared_ptr<Cube> cube, std::vector<Cube::MOVE>& moves);
 
   private:
 
@@ -34,13 +34,18 @@ class BreadthFirstSearcher::Vertex : public std::enable_shared_from_this<Vertex>
   public:
 
     Vertex(std::shared_ptr<Cube> cube);
-    ~Vertex() = default;
+    ~Vertex();
 
     inline const std::shared_ptr<Cube> GetCube() const { return m_Cube; }
     inline const std::pair<std::shared_ptr<Vertex>, Cube::MOVE>& GetParent() const
     {
         return m_Parent;
     }
+    inline void SetParent(std::pair<std::shared_ptr<Vertex>, Cube::MOVE> parent)
+    {
+        m_Parent = parent;
+    }
+    inline void SetCube(std::shared_ptr<Cube> cube) { m_Cube = cube; }
     std::vector<std::shared_ptr<Vertex>> GetNeighbors(std::vector<Cube::MOVE> moves);
     uint32_t GetKey(uint32_t max);
 

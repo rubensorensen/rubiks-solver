@@ -10,7 +10,7 @@ class ThistlethwaiteSolver
   public:
 
     ThistlethwaiteSolver(std::shared_ptr<Cube> cube);
-    ~ThistlethwaiteSolver() = default;
+    ~ThistlethwaiteSolver();
 
     void SolveCube();
 
