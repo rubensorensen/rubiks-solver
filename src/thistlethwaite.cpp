@@ -14,6 +14,8 @@ ThistlethwaiteSolver::~ThistlethwaiteSolver()
 void ThistlethwaiteSolver::SolveCube()
 {
 
+    m_Cube->Display();
+
     std::vector<Cube::MOVE> solution;
 
     std::vector<Cube::MOVE> g0 = { Cube::MOVE::UP,    Cube::MOVE::UPRIME, Cube::MOVE::UP2,
@@ -57,6 +59,7 @@ void ThistlethwaiteSolver::SolveCube()
         m_Cube->Twist(solution[i]);
     std::cout << "Current cube state" << std::endl;
     m_Cube->Dump();
+    m_Cube->Display();
     solutionSize = solution.size();
 
     // G1 -> G2
@@ -74,10 +77,42 @@ void ThistlethwaiteSolver::SolveCube()
         m_Cube->Twist(solution[i]);
     std::cout << "Current cube state" << std::endl;
     m_Cube->Dump();
+    m_Cube->Display();
+    solutionSize = solution.size();
 
     // G2 -> G3
-    // G3 -> G4
+    std::cout << "G2 -> G3" << std::endl;
+    std::cout << "Move space: { U2, D2, F2, B2, R, R', R2, L, L', L2 }\n" << std::endl;
 
+    bfs = BreadthFirstSearcher(g2, [](std::shared_ptr<BreadthFirstSearcher::Vertex> vertex) {
+        return vertex->GetCube()->SquaresCorrectOrOpposite();
+    });
+    bfs.SearchForGoal(m_Cube, solution);
+
+    for (size_t i = solutionSize; i < solution.size(); ++i)
+        m_Cube->Twist(solution[i]);
+    std::cout << "Current cube state" << std::endl;
+    m_Cube->Dump();
+    m_Cube->Display();
+    solutionSize = solution.size();
+
+    // G3 -> G4
+    std::cout << "G3 -> G4" << std::endl;
+    std::cout << "Move space: { U2, D2, F2, B2, R2, L2 }\n" << std::endl;
+
+    bfs = BreadthFirstSearcher(g3, [](std::shared_ptr<BreadthFirstSearcher::Vertex> vertex) {
+        return vertex->GetCube()->IsSolved();
+    });
+    bfs.SearchForGoal(m_Cube, solution);
+
+    for (size_t i = solutionSize; i < solution.size(); ++i)
+        m_Cube->Twist(solution[i]);
+    std::cout << "Current cube state" << std::endl;
+    m_Cube->Dump();
+    solutionSize = solution.size();
+
+    // Thistlethwaite done - Show solution
+    m_Cube->Display();
     const char* mv[] = { "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2",
                          "B", "B'", "B2", "R", "R'", "R2", "L", "L'", "L2" };
     for (auto& m : solution)

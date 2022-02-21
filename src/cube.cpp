@@ -312,8 +312,10 @@ void Cube::Shuffle(uint8_t n)
 
 bool Cube::IsSolved()
 {
-    return m_Up == 0x000000 && m_Down == 0x11111111 && m_Front == 0x22222222 &&
-           m_Back == 0x33333333 && m_Right == 0x44444444 && m_Left == 0x55555555;
+    return (*this == Cube());
+
+    // return (m_Up == 0x00000000 && m_Down == 0x11111111 && m_Front == 0x22222222 &&
+    //         m_Back == 0x33333333 && m_Right == 0x44444444 && m_Left == 0x55555555);
 }
 
 void Cube::RotateByString(std::string str)
@@ -494,6 +496,158 @@ bool Cube::EdgesOriented() const
     return true;
 }
 
+// bool Cube::EdgesOriented() const
+// {
+//     std::array<uint32_t, 4> upEdges{ ((m_Up >> 24) & 0x0000000F), ((m_Up >> 16) & 0x0000000F),
+//                                      ((m_Up >> 8) & 0x0000000F), ((m_Up >> 0) & 0x0000000F) };
+
+//     std::array<uint32_t, 4> downEdges{ ((m_Down >> 24) & 0x0000000F), ((m_Down >> 16) &
+//     0x0000000F),
+//                                        ((m_Down >> 8) & 0x0000000F), ((m_Down >> 0) & 0x0000000F)
+//                                        };
+
+//     std::array<uint32_t, 4> frontEdges{ ((m_Front >> 24) & 0x0000000F),
+//                                         ((m_Front >> 16) & 0x0000000F),
+//                                         ((m_Front >> 8) & 0x0000000F),
+//                                         ((m_Front >> 0) & 0x0000000F) };
+
+//     std::array<uint32_t, 4> backEdges{ ((m_Back >> 24) & 0x0000000F), ((m_Back >> 16) &
+//     0x0000000F),
+//                                        ((m_Back >> 8) & 0x0000000F), ((m_Back >> 0) & 0x0000000F)
+//                                        };
+
+//     std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
+//                                         ((m_Right >> 16) & 0x0000000F),
+//                                         ((m_Right >> 8) & 0x0000000F),
+//                                         ((m_Right >> 0) & 0x0000000F) };
+
+//     std::array<uint32_t, 4> leftEdges{ ((m_Left >> 24) & 0x0000000F), ((m_Left >> 16) &
+//     0x0000000F),
+//                                        ((m_Left >> 8) & 0x0000000F), ((m_Left >> 0) & 0x0000000F)
+//                                        };
+
+//     for (size_t i = 0; i < upEdges.size(); ++i)
+//     {
+//         if (upEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
+//             upEdges[i] == static_cast<uint32_t>(COLOR::RED))
+//             return false;
+
+//         if (upEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
+//             upEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
+//         {
+//             switch (i)
+//             {
+//                 case 0:
+//                     if (backEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         backEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 1:
+//                     if (rightEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         rightEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 2:
+//                     if (frontEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         frontEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 3:
+//                     if (leftEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         leftEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//             }
+//         }
+//     }
+//     for (size_t i = 0; i < downEdges.size(); ++i)
+//     {
+//         if (downEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
+//             downEdges[i] == static_cast<uint32_t>(COLOR::RED))
+//             return false;
+
+//         if (downEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
+//             downEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
+//         {
+//             switch (i)
+//             {
+//                 case 0:
+//                     if (frontEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         frontEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 1:
+//                     if (rightEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         rightEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 2:
+//                     if (backEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         backEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 3:
+//                     if (leftEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         leftEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//             }
+//         }
+//     }
+
+//     for (size_t i = 1; i < frontEdges.size(); i += 2)
+//     {
+//         if (frontEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
+//             frontEdges[i] == static_cast<uint32_t>(COLOR::RED))
+//             return false;
+
+//         if (frontEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
+//             frontEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
+//         {
+//             switch (i)
+//             {
+//                 case 1:
+//                     if (rightEdges[3] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         rightEdges[3] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 3:
+//                     if (leftEdges[1] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         leftEdges[1] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//             }
+//         }
+//     }
+
+//     for (size_t i = 1; i < backEdges.size(); i += 2)
+//     {
+//         if (backEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
+//             backEdges[i] == static_cast<uint32_t>(COLOR::RED))
+//             return false;
+
+//         if (backEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
+//             backEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
+//         {
+//             switch (i)
+//             {
+//                 case 1:
+//                     if (leftEdges[3] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         leftEdges[3] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//                 case 3:
+//                     if (rightEdges[1] == static_cast<uint32_t>(COLOR::YELLOW) ||
+//                         rightEdges[1] == static_cast<uint32_t>(COLOR::WHITE))
+//                         return false;
+//                     break;
+//             }
+//         }
+//     }
+
+//     return true;
+// }
+
 bool Cube::CornersOriented() const
 {
     std::array<uint32_t, 4> rightCorners{ ((m_Right >> 28) & 0x0000000F),
@@ -519,6 +673,34 @@ bool Cube::CornersOriented() const
 
 bool Cube::CorrectEdgesInMiddleSlice() const
 {
+    // std::array<uint32_t, 4> upEdges{ ((m_Up >> 24) & 0x0000000F), ((m_Up >> 16) & 0x0000000F),
+    //                                  ((m_Up >> 8) & 0x0000000F), ((m_Up >> 0) & 0x0000000F) };
+
+    // std::array<uint32_t, 4> downEdges{ ((m_Down >> 24) & 0x0000000F), ((m_Down >> 16) &
+    // 0x0000000F),
+    //                                    ((m_Down >> 8) & 0x0000000F), ((m_Down >> 0) & 0x0000000F)
+    //                                    };
+
+    // std::array<uint32_t, 4> frontEdges{ ((m_Front >> 24) & 0x0000000F),
+    //                                     ((m_Front >> 16) & 0x0000000F),
+    //                                     ((m_Front >> 8) & 0x0000000F),
+    //                                     ((m_Front >> 0) & 0x0000000F) };
+
+    // std::array<uint32_t, 4> backEdges{ ((m_Back >> 24) & 0x0000000F), ((m_Back >> 16) &
+    // 0x0000000F),
+    //                                    ((m_Back >> 8) & 0x0000000F), ((m_Back >> 0) & 0x0000000F)
+    //                                    };
+
+    // if ((frontEdges[0] == static_cast<uint32_t>(COLOR::GREEN) &&
+    //      upEdges[2] == static_cast<uint32_t>(COLOR::YELLOW)) &&
+    //     (frontEdges[2] == static_cast<uint32_t>(COLOR::GREEN) &&
+    //      downEdges[0] == static_cast<uint32_t>(COLOR::WHITE)) &&
+    //     (backEdges[0] == static_cast<uint32_t>(COLOR::BLUE) &&
+    //      upEdges[0] == static_cast<uint32_t>(COLOR::YELLOW)) &&
+    //     (backEdges[2] == static_cast<uint32_t>(COLOR::BLUE) &&
+    //      downEdges[2] == static_cast<uint32_t>(COLOR::WHITE)))
+    //     return true;
+    // return false;
 
     std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
                                         ((m_Right >> 16) & 0x0000000F),
@@ -537,4 +719,36 @@ bool Cube::CorrectEdgesInMiddleSlice() const
             ++count;
 
     return count == 8;
+}
+
+bool Cube::SquaresCorrectOrOpposite() const
+{
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Up >> i) & 0xF) != static_cast<uint8_t>(COLOR::YELLOW) &&
+            ((m_Up >> i) & 0xF) != static_cast<uint8_t>(COLOR::WHITE))
+            return false;
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Down >> i) & 0xF) != static_cast<uint8_t>(COLOR::YELLOW) &&
+            ((m_Down >> i) & 0xF) != static_cast<uint8_t>(COLOR::WHITE))
+            return false;
+
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Front >> i) & 0xF) != static_cast<uint8_t>(COLOR::GREEN) &&
+            ((m_Front >> i) & 0xF) != static_cast<uint8_t>(COLOR::BLUE))
+            return false;
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Back >> i) & 0xF) != static_cast<uint8_t>(COLOR::GREEN) &&
+            ((m_Back >> i) & 0xF) != static_cast<uint8_t>(COLOR::BLUE))
+            return false;
+
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Right >> i) & 0xF) != static_cast<uint8_t>(COLOR::ORANGE) &&
+            ((m_Right >> i) & 0xF) != static_cast<uint8_t>(COLOR::RED))
+            return false;
+    for (int8_t i = 28; i >= 0; i -= 4)
+        if (((m_Left >> i) & 0xF) != static_cast<uint8_t>(COLOR::ORANGE) &&
+            ((m_Left >> i) & 0xF) != static_cast<uint8_t>(COLOR::RED))
+            return false;
+
+    return true;
 }

@@ -85,6 +85,7 @@ class Cube
     bool EdgesOriented() const;
     bool CornersOriented() const;
     bool CorrectEdgesInMiddleSlice() const;
+    bool SquaresCorrectOrOpposite() const;
 
     bool IsSolved();
 
