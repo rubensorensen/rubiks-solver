@@ -41,6 +41,10 @@ ThistlethwaiteSolver::~ThistlethwaiteSolver()
 
 void ThistlethwaiteSolver::SolveCube()
 {
+    std::cout << "Initializing Thistlethwaite solver" << std::endl;
+    G3Permutations::GenerateG3Permutations();
+    std::cout << "Thistlethwaite solver initialized\n" << std::endl;
+
     std::cout << "THISTLETHWAITE'S ALGORITHM" << std::endl;
     std::cout << "--------------------------" << std::endl;
     std::cout << "Initial cube state" << std::endl;
@@ -86,8 +90,6 @@ void ThistlethwaiteSolver::SolveCube()
     // G2 -> G3
     std::cout << "G2 -> G3" << std::endl;
     std::cout << "Move space: { U2, D2, F2, B2, R, R', R2, L, L', L2 }\n" << std::endl;
-
-    G3Permutations::GenerateG3Permutations();
 
     bfs.SetAllowedMoves(s_G2);
     bfs.SetGoal([](const Cube& cube) { return G3Permutations::ContainsPermutation(cube); });

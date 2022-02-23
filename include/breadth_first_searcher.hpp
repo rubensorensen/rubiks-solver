@@ -2,7 +2,6 @@
 #define BREADTH_FIRST_SEARCHER_HPP
 
 #include "cube.hpp"
-#include "timer.hpp"
 #include <unordered_map>
 
 #include <memory>

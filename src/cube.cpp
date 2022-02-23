@@ -9,26 +9,26 @@
 
 //	Bitwise rotation m_Right
 template<class N>
-N ror(const N n, const uint8_t d)
+inline N ror(const N n, const uint8_t d)
 {
     return n >> d | n << (sizeof(n) * 8 - d);
 }
 
 //	Bitwise rotation m_Left
 template<class N>
-N rol(const N n, const uint8_t d)
+inline N rol(const N n, const uint8_t d)
 {
     return n << d | n >> (sizeof(n) * 8 - d);
 }
 
 Cube::Cube(uint32_t up, uint32_t down, uint32_t front, uint32_t back, uint32_t right, uint32_t left)
 {
-    m_Up    = { up };
-    m_Down  = { down };
-    m_Front = { front };
-    m_Back  = { back };
-    m_Right = { right };
-    m_Left  = { left };
+    m_Up    = up;
+    m_Down  = down;
+    m_Front = front;
+    m_Back  = back;
+    m_Right = right;
+    m_Left  = left;
 }
 
 void Cube::Twist(MOVE mv)
@@ -230,50 +230,66 @@ void Cube::Twist(MOVE mv)
 
 void Cube::Display() const
 {
-    using std::cout;
-    using std::endl;
-
     const char* table = "YWGBOR";
+    auto edges        = GetEdges();
+    auto corners      = GetCorners();
 
-    cout << "        " << table[m_Up >> 28] << " " << table[m_Up >> 24 & 0x0F] << " "
-         << table[m_Up >> 20 & 0x00F] << endl;
-    cout << "        " << table[m_Up & 0x0000000F] << " " << 'Y' << " "
-         << table[m_Up >> 16 & 0x000F] << endl;
-    cout << "        " << table[m_Up >> 4 & 0x000000F] << " " << table[m_Up >> 8 & 0x00000F] << " "
-         << table[m_Up >> 12 & 0x0000F] << endl;
+    auto firstRow = [&table, &edges, &corners](FACE f) {
+        std::cout << table[corners[static_cast<uint8_t>(f)][0]] << ' '
+                  << table[edges[static_cast<uint8_t>(f)][0]] << ' '
+                  << table[corners[static_cast<uint8_t>(f)][1]];
+    };
+    auto secondRow = [&table, &edges, &corners](FACE f) {
+        std::cout << table[edges[static_cast<uint8_t>(f)][3]] << ' '
+                  << table[static_cast<uint8_t>(f)] << ' '
+                  << table[edges[static_cast<uint8_t>(f)][1]];
+    };
+    auto thirdRow = [&table, &edges, &corners](FACE f) {
+        std::cout << table[corners[static_cast<uint8_t>(f)][3]] << ' '
+                  << table[edges[static_cast<uint8_t>(f)][2]] << ' '
+                  << table[corners[static_cast<uint8_t>(f)][2]];
+    };
 
-    cout << endl;
+    std::cout << '\t';
+    firstRow(FACE::UP);
+    std::cout << "\n\t";
+    secondRow(FACE::UP);
+    std::cout << "\n\t";
+    thirdRow(FACE::UP);
+    std::cout << '\n' << std::endl;
 
-    cout << " " << table[m_Left >> 28] << " " << table[m_Left >> 24 & 0x0F] << " "
-         << table[m_Left >> 20 & 0x00F] << "  " << table[m_Front >> 28] << " "
-         << table[m_Front >> 24 & 0x0F] << " " << table[m_Front >> 20 & 0x00F] << "  "
-         << table[m_Right >> 28] << " " << table[m_Right >> 24 & 0x0F] << " "
-         << table[m_Right >> 20 & 0x00F] << "  " << table[m_Back >> 28] << " "
-         << table[m_Back >> 24 & 0x0F] << " " << table[m_Back >> 20 & 0x00F] << endl;
+    firstRow(FACE::LEFT);
+    std::cout << '\t';
+    firstRow(FACE::FRONT);
+    std::cout << '\t';
+    firstRow(FACE::RIGHT);
+    std::cout << '\t';
+    firstRow(FACE::BACK);
+    std::cout << std::endl;
+    secondRow(FACE::LEFT);
+    std::cout << '\t';
+    secondRow(FACE::FRONT);
+    std::cout << '\t';
+    secondRow(FACE::RIGHT);
+    std::cout << '\t';
+    secondRow(FACE::BACK);
+    std::cout << std::endl;
+    thirdRow(FACE::LEFT);
+    std::cout << '\t';
+    thirdRow(FACE::FRONT);
+    std::cout << '\t';
+    thirdRow(FACE::RIGHT);
+    std::cout << '\t';
+    thirdRow(FACE::BACK);
+    std::cout << '\n' << std::endl;
 
-    cout << " " << table[m_Left & 0x0000000F] << " " << 'R' << " " << table[m_Left >> 16 & 0x000F]
-         << "  " << table[m_Front & 0x0000000F] << " " << 'G' << " "
-         << table[m_Front >> 16 & 0x000F] << "  " << table[m_Right & 0x0000000F] << " " << 'O'
-         << " " << table[m_Right >> 16 & 0x000F] << "  " << table[m_Back & 0x0000000F] << " " << 'B'
-         << " " << table[m_Back >> 16 & 0x000F] << endl;
-
-    cout << " " << table[m_Left >> 4 & 0x000000F] << " " << table[m_Left >> 8 & 0x00000F] << " "
-         << table[m_Left >> 12 & 0x0000F] << "  " << table[m_Front >> 4 & 0x000000F] << " "
-         << table[m_Front >> 8 & 0x00000F] << " " << table[m_Front >> 12 & 0x0000F] << "  "
-         << table[m_Right >> 4 & 0x000000F] << " " << table[m_Right >> 8 & 0x00000F] << " "
-         << table[m_Right >> 12 & 0x0000F] << "  " << table[m_Back >> 4 & 0x000000F] << " "
-         << table[m_Back >> 8 & 0x00000F] << " " << table[m_Back >> 12 & 0x0000F] << endl;
-
-    cout << endl;
-
-    cout << "        " << table[m_Down >> 28] << " " << table[m_Down >> 24 & 0x0F] << " "
-         << table[m_Down >> 20 & 0x00F] << endl;
-    cout << "        " << table[m_Down & 0x0000000F] << " " << 'W' << " "
-         << table[m_Down >> 16 & 0x000F] << endl;
-    cout << "        " << table[m_Down >> 4 & 0x000000F] << " " << table[m_Down >> 8 & 0x00000F]
-         << " " << table[m_Down >> 12 & 0x0000F] << endl;
-
-    cout << endl;
+    std::cout << '\t';
+    firstRow(FACE::DOWN);
+    std::cout << "\n\t";
+    secondRow(FACE::DOWN);
+    std::cout << "\n\t";
+    thirdRow(FACE::DOWN);
+    std::cout << '\n' << std::endl;
 }
 
 void Cube::Dump() const
@@ -289,6 +305,76 @@ void Cube::Dump() const
     cout << "Right: " << std::bitset<32>(m_Right) << endl;
     cout << "Left:  " << std::bitset<32>(m_Left) << endl;
     cout << endl;
+}
+
+std::array<std::array<Cube::COLOR, 4>, 6> Cube::GetEdges() const
+{
+    return {
+        {{ static_cast<Cube::COLOR>((m_Up >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 0) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Down >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 0) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Front >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 0) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Back >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 0) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Right >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 0) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Left >> 24) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 16) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 8) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 0) & 0xF) }}
+    };
+}
+
+std::array<std::array<Cube::COLOR, 4>, 6> Cube::GetCorners() const
+{
+    return {
+        {{ static_cast<Cube::COLOR>((m_Up >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Up >> 4) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Down >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Down >> 4) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Front >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Front >> 4) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Back >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Back >> 4) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Right >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Right >> 4) & 0xF) },
+
+         { static_cast<Cube::COLOR>((m_Left >> 28) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 20) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 12) & 0xF),
+            static_cast<Cube::COLOR>((m_Left >> 4) & 0xF) }}
+    };
 }
 
 void Cube::Shuffle(uint8_t n)
@@ -342,59 +428,39 @@ void Cube::RotateFromFile(const char* filepath)
 
 bool Cube::EdgesOriented() const
 {
-    std::array<uint32_t, 4> upEdges{ ((m_Up >> 24) & 0x0000000F), ((m_Up >> 16) & 0x0000000F),
-                                     ((m_Up >> 8) & 0x0000000F), ((m_Up >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> downEdges{ ((m_Down >> 24) & 0x0000000F), ((m_Down >> 16) & 0x0000000F),
-                                       ((m_Down >> 8) & 0x0000000F), ((m_Down >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> frontEdges{ ((m_Front >> 24) & 0x0000000F),
-                                        ((m_Front >> 16) & 0x0000000F),
-                                        ((m_Front >> 8) & 0x0000000F),
-                                        ((m_Front >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> backEdges{ ((m_Back >> 24) & 0x0000000F), ((m_Back >> 16) & 0x0000000F),
-                                       ((m_Back >> 8) & 0x0000000F), ((m_Back >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
-                                        ((m_Right >> 16) & 0x0000000F),
-                                        ((m_Right >> 8) & 0x0000000F),
-                                        ((m_Right >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> leftEdges{ ((m_Left >> 24) & 0x0000000F), ((m_Left >> 16) & 0x0000000F),
-                                       ((m_Left >> 8) & 0x0000000F), ((m_Left >> 0) & 0x0000000F) };
+    auto edges = GetEdges();
 
     for (size_t i{ 0 }; i < 4; ++i)
     {
         // Are any orange or red stickers visible on edges on the front layer?
-        if (frontEdges[i] == static_cast<uint8_t>(Cube::COLOR::ORANGE) ||
-            frontEdges[i] == static_cast<uint8_t>(Cube::COLOR::RED))
+        if (edges[static_cast<uint8_t>(FACE::FRONT)][i] == Cube::COLOR::ORANGE ||
+            edges[static_cast<uint8_t>(FACE::FRONT)][i] == Cube::COLOR::RED)
             return false;
         // Are any yellow og white stickers visible on edges on the front layer?
-        if (frontEdges[i] == static_cast<uint8_t>(Cube::COLOR::YELLOW) ||
-            frontEdges[i] == static_cast<uint8_t>(Cube::COLOR::WHITE))
+        if (edges[static_cast<uint8_t>(FACE::FRONT)][i] == Cube::COLOR::YELLOW ||
+            edges[static_cast<uint8_t>(FACE::FRONT)][i] == Cube::COLOR::WHITE)
         {
             // Check other sticker of edge for a green or blue sticker
             switch (i)
             {
                 case 0:
-                    if (upEdges[2] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        upEdges[2] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::UP)][2] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::UP)][2] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 1:
-                    if (rightEdges[3] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        rightEdges[3] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::RIGHT)][3] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::RIGHT)][3] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 2:
-                    if (downEdges[0] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        downEdges[0] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::DOWN)][0] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::DOWN)][0] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 3:
-                    if (leftEdges[1] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        leftEdges[1] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::LEFT)][1] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::LEFT)][1] == Cube::COLOR::BLUE)
                         return false;
                     break;
             }
@@ -404,34 +470,34 @@ bool Cube::EdgesOriented() const
     for (size_t i{ 0 }; i < 4; ++i)
     {
         // Are any orange or red stickers visible on edges on the back layer?
-        if (backEdges[i] == static_cast<uint8_t>(Cube::COLOR::ORANGE) ||
-            backEdges[i] == static_cast<uint8_t>(Cube::COLOR::RED))
+        if (edges[static_cast<uint8_t>(FACE::BACK)][i] == Cube::COLOR::ORANGE ||
+            edges[static_cast<uint8_t>(FACE::BACK)][i] == Cube::COLOR::RED)
             return false;
         // Are any yellow og white stickers visible on edges on the back layer?
-        if (backEdges[i] == static_cast<uint8_t>(Cube::COLOR::YELLOW) ||
-            backEdges[i] == static_cast<uint8_t>(Cube::COLOR::WHITE))
+        if (edges[static_cast<uint8_t>(FACE::BACK)][i] == Cube::COLOR::YELLOW ||
+            edges[static_cast<uint8_t>(FACE::BACK)][i] == Cube::COLOR::WHITE)
         {
             // Check other sticker of edge for a green or blue sticker
             switch (i)
             {
                 case 0:
-                    if (upEdges[0] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        upEdges[0] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::UP)][0] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::UP)][0] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 1:
-                    if (leftEdges[3] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        leftEdges[3] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::LEFT)][3] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::LEFT)][3] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 2:
-                    if (downEdges[2] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        downEdges[2] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::DOWN)][2] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::DOWN)][2] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 3:
-                    if (rightEdges[1] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        rightEdges[1] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::RIGHT)][1] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::RIGHT)][1] == Cube::COLOR::BLUE)
                         return false;
                     break;
             }
@@ -442,23 +508,23 @@ bool Cube::EdgesOriented() const
     for (size_t i{ 1 }; i < 4; i += 2)
     {
         // Are any orange or red stickers visible on the up side of the S slice?
-        if (upEdges[i] == static_cast<uint8_t>(Cube::COLOR::ORANGE) ||
-            upEdges[i] == static_cast<uint8_t>(Cube::COLOR::RED))
+        if (edges[static_cast<uint8_t>(FACE::UP)][i] == Cube::COLOR::ORANGE ||
+            edges[static_cast<uint8_t>(FACE::UP)][i] == Cube::COLOR::RED)
             return false;
         // Are any yellow or white stickers visible on the up edges of the S slice?
-        if (upEdges[i] == static_cast<uint8_t>(Cube::COLOR::YELLOW) ||
-            upEdges[i] == static_cast<uint8_t>(Cube::COLOR::WHITE))
+        if (edges[static_cast<uint8_t>(FACE::UP)][i] == Cube::COLOR::YELLOW ||
+            edges[static_cast<uint8_t>(FACE::UP)][i] == Cube::COLOR::WHITE)
         {
             switch (i)
             {
                 case 1:
-                    if (rightEdges[0] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        rightEdges[0] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::RIGHT)][0] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::RIGHT)][0] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 3:
-                    if (leftEdges[0] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        leftEdges[0] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::LEFT)][0] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::LEFT)][0] == Cube::COLOR::BLUE)
                         return false;
                     break;
             }
@@ -469,23 +535,23 @@ bool Cube::EdgesOriented() const
     for (size_t i{ 1 }; i < 4; i += 2)
     {
         // Are any orange or red stickers visible on the down side of the S slice?
-        if (downEdges[i] == static_cast<uint8_t>(Cube::COLOR::ORANGE) ||
-            downEdges[i] == static_cast<uint8_t>(Cube::COLOR::RED))
+        if (edges[static_cast<uint8_t>(FACE::DOWN)][i] == Cube::COLOR::ORANGE ||
+            edges[static_cast<uint8_t>(FACE::DOWN)][i] == Cube::COLOR::RED)
             return false;
         // Are any yellow or white stickers visible on the down edges of the middle layer?
-        if (downEdges[i] == static_cast<uint8_t>(Cube::COLOR::YELLOW) ||
-            downEdges[i] == static_cast<uint8_t>(Cube::COLOR::WHITE))
+        if (edges[static_cast<uint8_t>(FACE::DOWN)][i] == Cube::COLOR::YELLOW ||
+            edges[static_cast<uint8_t>(FACE::DOWN)][i] == Cube::COLOR::WHITE)
         {
             switch (i)
             {
                 case 1:
-                    if (rightEdges[2] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        rightEdges[2] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::RIGHT)][2] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::RIGHT)][2] == Cube::COLOR::BLUE)
                         return false;
                     break;
                 case 3:
-                    if (leftEdges[2] == static_cast<uint8_t>(Cube::COLOR::GREEN) ||
-                        leftEdges[2] == static_cast<uint8_t>(Cube::COLOR::BLUE))
+                    if (edges[static_cast<uint8_t>(FACE::LEFT)][2] == Cube::COLOR::GREEN ||
+                        edges[static_cast<uint8_t>(FACE::LEFT)][2] == Cube::COLOR::BLUE)
                         return false;
                     break;
             }
@@ -496,176 +562,16 @@ bool Cube::EdgesOriented() const
     return true;
 }
 
-// bool Cube::EdgesOriented() const
-// {
-//     std::array<uint32_t, 4> upEdges{ ((m_Up >> 24) & 0x0000000F), ((m_Up >> 16) & 0x0000000F),
-//                                      ((m_Up >> 8) & 0x0000000F), ((m_Up >> 0) & 0x0000000F) };
-
-//     std::array<uint32_t, 4> downEdges{ ((m_Down >> 24) & 0x0000000F), ((m_Down >> 16) &
-//     0x0000000F),
-//                                        ((m_Down >> 8) & 0x0000000F), ((m_Down >> 0) & 0x0000000F)
-//                                        };
-
-//     std::array<uint32_t, 4> frontEdges{ ((m_Front >> 24) & 0x0000000F),
-//                                         ((m_Front >> 16) & 0x0000000F),
-//                                         ((m_Front >> 8) & 0x0000000F),
-//                                         ((m_Front >> 0) & 0x0000000F) };
-
-//     std::array<uint32_t, 4> backEdges{ ((m_Back >> 24) & 0x0000000F), ((m_Back >> 16) &
-//     0x0000000F),
-//                                        ((m_Back >> 8) & 0x0000000F), ((m_Back >> 0) & 0x0000000F)
-//                                        };
-
-//     std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
-//                                         ((m_Right >> 16) & 0x0000000F),
-//                                         ((m_Right >> 8) & 0x0000000F),
-//                                         ((m_Right >> 0) & 0x0000000F) };
-
-//     std::array<uint32_t, 4> leftEdges{ ((m_Left >> 24) & 0x0000000F), ((m_Left >> 16) &
-//     0x0000000F),
-//                                        ((m_Left >> 8) & 0x0000000F), ((m_Left >> 0) & 0x0000000F)
-//                                        };
-
-//     for (size_t i = 0; i < upEdges.size(); ++i)
-//     {
-//         if (upEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
-//             upEdges[i] == static_cast<uint32_t>(COLOR::RED))
-//             return false;
-
-//         if (upEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
-//             upEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
-//         {
-//             switch (i)
-//             {
-//                 case 0:
-//                     if (backEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         backEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 1:
-//                     if (rightEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         rightEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 2:
-//                     if (frontEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         frontEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 3:
-//                     if (leftEdges[0] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         leftEdges[0] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//             }
-//         }
-//     }
-//     for (size_t i = 0; i < downEdges.size(); ++i)
-//     {
-//         if (downEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
-//             downEdges[i] == static_cast<uint32_t>(COLOR::RED))
-//             return false;
-
-//         if (downEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
-//             downEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
-//         {
-//             switch (i)
-//             {
-//                 case 0:
-//                     if (frontEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         frontEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 1:
-//                     if (rightEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         rightEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 2:
-//                     if (backEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         backEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 3:
-//                     if (leftEdges[2] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         leftEdges[2] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//             }
-//         }
-//     }
-
-//     for (size_t i = 1; i < frontEdges.size(); i += 2)
-//     {
-//         if (frontEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
-//             frontEdges[i] == static_cast<uint32_t>(COLOR::RED))
-//             return false;
-
-//         if (frontEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
-//             frontEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
-//         {
-//             switch (i)
-//             {
-//                 case 1:
-//                     if (rightEdges[3] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         rightEdges[3] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 3:
-//                     if (leftEdges[1] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         leftEdges[1] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//             }
-//         }
-//     }
-
-//     for (size_t i = 1; i < backEdges.size(); i += 2)
-//     {
-//         if (backEdges[i] == static_cast<uint32_t>(COLOR::ORANGE) ||
-//             backEdges[i] == static_cast<uint32_t>(COLOR::RED))
-//             return false;
-
-//         if (backEdges[i] == static_cast<uint32_t>(COLOR::GREEN) ||
-//             backEdges[i] == static_cast<uint32_t>(COLOR::BLUE))
-//         {
-//             switch (i)
-//             {
-//                 case 1:
-//                     if (leftEdges[3] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         leftEdges[3] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//                 case 3:
-//                     if (rightEdges[1] == static_cast<uint32_t>(COLOR::YELLOW) ||
-//                         rightEdges[1] == static_cast<uint32_t>(COLOR::WHITE))
-//                         return false;
-//                     break;
-//             }
-//         }
-//     }
-
-//     return true;
-// }
-
 bool Cube::CornersOriented() const
 {
-    std::array<uint32_t, 4> rightCorners{ ((m_Right >> 28) & 0x0000000F),
-                                          ((m_Right >> 20) & 0x0000000F),
-                                          ((m_Right >> 12) & 0x0000000F),
-                                          ((m_Right >> 4) & 0x0000000F) };
-
-    std::array<uint32_t, 4> leftCorners{ ((m_Left >> 28) & 0x0000000F),
-                                         ((m_Left >> 20) & 0x0000000F),
-                                         ((m_Left >> 12) & 0x0000000F),
-                                         ((m_Left >> 4) & 0x0000000F) };
+    auto corners = GetCorners();
 
     uint8_t count = 0;
-    for (uint32_t c : rightCorners)
-        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+    for (COLOR c : corners[static_cast<uint8_t>(FACE::RIGHT)])
+        if (c == COLOR::ORANGE || c == COLOR::RED)
             ++count;
-    for (uint32_t c : leftCorners)
-        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+    for (COLOR c : corners[static_cast<uint8_t>(FACE::LEFT)])
+        if (c == COLOR::ORANGE || c == COLOR::RED)
             ++count;
 
     return count == 8;
@@ -673,82 +579,15 @@ bool Cube::CornersOriented() const
 
 bool Cube::CorrectEdgesInMiddleSlice() const
 {
-    // std::array<uint32_t, 4> upEdges{ ((m_Up >> 24) & 0x0000000F), ((m_Up >> 16) & 0x0000000F),
-    //                                  ((m_Up >> 8) & 0x0000000F), ((m_Up >> 0) & 0x0000000F) };
-
-    // std::array<uint32_t, 4> downEdges{ ((m_Down >> 24) & 0x0000000F), ((m_Down >> 16) &
-    // 0x0000000F),
-    //                                    ((m_Down >> 8) & 0x0000000F), ((m_Down >> 0) & 0x0000000F)
-    //                                    };
-
-    // std::array<uint32_t, 4> frontEdges{ ((m_Front >> 24) & 0x0000000F),
-    //                                     ((m_Front >> 16) & 0x0000000F),
-    //                                     ((m_Front >> 8) & 0x0000000F),
-    //                                     ((m_Front >> 0) & 0x0000000F) };
-
-    // std::array<uint32_t, 4> backEdges{ ((m_Back >> 24) & 0x0000000F), ((m_Back >> 16) &
-    // 0x0000000F),
-    //                                    ((m_Back >> 8) & 0x0000000F), ((m_Back >> 0) & 0x0000000F)
-    //                                    };
-
-    // if ((frontEdges[0] == static_cast<uint32_t>(COLOR::GREEN) &&
-    //      upEdges[2] == static_cast<uint32_t>(COLOR::YELLOW)) &&
-    //     (frontEdges[2] == static_cast<uint32_t>(COLOR::GREEN) &&
-    //      downEdges[0] == static_cast<uint32_t>(COLOR::WHITE)) &&
-    //     (backEdges[0] == static_cast<uint32_t>(COLOR::BLUE) &&
-    //      upEdges[0] == static_cast<uint32_t>(COLOR::YELLOW)) &&
-    //     (backEdges[2] == static_cast<uint32_t>(COLOR::BLUE) &&
-    //      downEdges[2] == static_cast<uint32_t>(COLOR::WHITE)))
-    //     return true;
-    // return false;
-
-    std::array<uint32_t, 4> rightEdges{ ((m_Right >> 24) & 0x0000000F),
-                                        ((m_Right >> 16) & 0x0000000F),
-                                        ((m_Right >> 8) & 0x0000000F),
-                                        ((m_Right >> 0) & 0x0000000F) };
-
-    std::array<uint32_t, 4> leftEdges{ ((m_Left >> 24) & 0x0000000F), ((m_Left >> 16) & 0x0000000F),
-                                       ((m_Left >> 8) & 0x0000000F), ((m_Left >> 0) & 0x0000000F) };
+    auto edges = GetEdges();
 
     uint8_t count = 0;
-    for (uint32_t c : rightEdges)
-        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+    for (COLOR c : edges[static_cast<uint8_t>(FACE::RIGHT)])
+        if (c == COLOR::ORANGE || c == COLOR::RED)
             ++count;
-    for (uint32_t c : leftEdges)
-        if (c == static_cast<uint32_t>(COLOR::ORANGE) || c == static_cast<uint32_t>(COLOR::RED))
+    for (COLOR c : edges[static_cast<uint8_t>(FACE::LEFT)])
+        if (c == COLOR::ORANGE || c == COLOR::RED)
             ++count;
 
     return count == 8;
-}
-
-bool Cube::SquaresCorrectOrOpposite() const
-{
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Up >> i) & 0xF) != static_cast<uint8_t>(COLOR::YELLOW) &&
-            ((m_Up >> i) & 0xF) != static_cast<uint8_t>(COLOR::WHITE))
-            return false;
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Down >> i) & 0xF) != static_cast<uint8_t>(COLOR::YELLOW) &&
-            ((m_Down >> i) & 0xF) != static_cast<uint8_t>(COLOR::WHITE))
-            return false;
-
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Front >> i) & 0xF) != static_cast<uint8_t>(COLOR::GREEN) &&
-            ((m_Front >> i) & 0xF) != static_cast<uint8_t>(COLOR::BLUE))
-            return false;
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Back >> i) & 0xF) != static_cast<uint8_t>(COLOR::GREEN) &&
-            ((m_Back >> i) & 0xF) != static_cast<uint8_t>(COLOR::BLUE))
-            return false;
-
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Right >> i) & 0xF) != static_cast<uint8_t>(COLOR::ORANGE) &&
-            ((m_Right >> i) & 0xF) != static_cast<uint8_t>(COLOR::RED))
-            return false;
-    for (int8_t i = 28; i >= 0; i -= 4)
-        if (((m_Left >> i) & 0xF) != static_cast<uint8_t>(COLOR::ORANGE) &&
-            ((m_Left >> i) & 0xF) != static_cast<uint8_t>(COLOR::RED))
-            return false;
-
-    return true;
 }

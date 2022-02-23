@@ -1,6 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <array>
 #include <stdint.h>
 #include <string>
 
@@ -20,7 +21,7 @@ class Cube
 
   public:
 
-    enum class FACE : uint8_t
+    enum FACE : uint8_t
     {
         UP = 0,
         DOWN,
@@ -30,7 +31,7 @@ class Cube
         LEFT
     };
 
-    enum class COLOR : uint8_t
+    enum COLOR : uint8_t
     {
         YELLOW = 0,
         WHITE,
@@ -79,14 +80,15 @@ class Cube
     void Dump() const;
     void Display() const;
 
+    std::array<std::array<Cube::COLOR, 4>, 6> GetEdges() const;
+    std::array<std::array<Cube::COLOR, 4>, 6> GetCorners() const;
+
     void Shuffle(uint8_t n);
     void RotateByString(std::string str);
     void RotateFromFile(const char* filepath);
     bool EdgesOriented() const;
     bool CornersOriented() const;
     bool CorrectEdgesInMiddleSlice() const;
-    bool SquaresCorrectOrOpposite() const;
-
     bool IsSolved() const;
 
     inline bool operator==(const Cube& rhs) const

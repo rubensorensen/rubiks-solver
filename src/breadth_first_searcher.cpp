@@ -1,7 +1,5 @@
 #include "../include/breadth_first_searcher.hpp"
 
-#include <unordered_map>
-
 #include <iostream>
 #include <queue>
 #include <stack>
