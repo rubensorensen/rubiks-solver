@@ -3,6 +3,7 @@
 
 #include "cube.hpp"
 #include "timer.hpp"
+#include <unordered_map>
 
 #include <memory>
 #include <vector>
@@ -15,43 +16,51 @@ class BreadthFirstSearcher
 
   public:
 
-    BreadthFirstSearcher(const std::vector<Cube::MOVE>& moves,
-                         bool (*goal)(std::shared_ptr<Vertex> vertex));
+    BreadthFirstSearcher()  = default;
     ~BreadthFirstSearcher() = default;
-    void SearchForGoal(std::shared_ptr<Cube> cube, std::vector<Cube::MOVE>& moves);
+    inline void SetAllowedMoves(const std::vector<Cube::MOVE>& moves) { m_AllowedMoves = moves; }
+    inline void SetGoal(bool (*goal)(const Cube& cube)) { GoalIsSatisfied = goal; }
+    inline const std::vector<Cube::MOVE>& GetSolution() const { return m_Solution; }
+    void SearchForGoal(const Cube& cube);
+    inline const std::unordered_multimap<uint32_t, std::shared_ptr<Vertex>>& GetMap() const
+    {
+        return m_Map;
+    }
 
   private:
 
-    void FindMoves(std::shared_ptr<Vertex> vertex, std::vector<Cube::MOVE>& moves);
+    void TraceMoves(std::shared_ptr<Vertex> vertex);
+    bool (*GoalIsSatisfied)(const Cube& cube);
 
+  private:
+
+    std::unordered_multimap<uint32_t, std::shared_ptr<Vertex>> m_Map;
     std::vector<Cube::MOVE> m_AllowedMoves;
-    bool (*GoalIsSatisfied)(std::shared_ptr<Vertex> vertex);
-    Timer m_Timer;
+    std::vector<Cube::MOVE> m_Solution;
 };
 
 class BreadthFirstSearcher::Vertex : public std::enable_shared_from_this<Vertex>
 {
   public:
 
-    Vertex(std::shared_ptr<Cube> cube);
+    Vertex(const Cube& cube);
     ~Vertex();
 
-    inline const std::shared_ptr<Cube> GetCube() const { return m_Cube; }
+    inline const Cube& GetCube() const { return m_Cube; }
     inline const std::pair<std::shared_ptr<Vertex>, Cube::MOVE>& GetParent() const
     {
         return m_Parent;
     }
-    inline void SetParent(std::pair<std::shared_ptr<Vertex>, Cube::MOVE> parent)
+    inline void SetParent(std::shared_ptr<Vertex> parent, Cube::MOVE move)
     {
-        m_Parent = parent;
+        m_Parent = { parent, move };
     }
-    inline void SetCube(std::shared_ptr<Cube> cube) { m_Cube = cube; }
     std::vector<std::shared_ptr<Vertex>> GetNeighbors(std::vector<Cube::MOVE> moves);
     uint32_t GetKey(uint32_t max);
 
   private:
 
-    std::shared_ptr<Cube> m_Cube;
+    Cube m_Cube;
     std::pair<std::shared_ptr<BreadthFirstSearcher::Vertex>, Cube::MOVE> m_Parent;
 };
 

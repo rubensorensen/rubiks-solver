@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
                      to_uint32(argv[5]), to_uint32(argv[6]));
 
     // cube->Shuffle(10);
-    cube->RotateByString("11,0,8,4,12,8,2,10,12");
+    // cube->RotateByString("11,0,8,4,12,8,2,10,12");
     ThistlethwaiteSolver ts(cube);
     ts.SolveCube();
 

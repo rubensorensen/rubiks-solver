@@ -87,7 +87,7 @@ class Cube
     bool CorrectEdgesInMiddleSlice() const;
     bool SquaresCorrectOrOpposite() const;
 
-    bool IsSolved();
+    bool IsSolved() const;
 
     inline bool operator==(const Cube& rhs) const
     {

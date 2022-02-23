@@ -310,7 +310,7 @@ void Cube::Shuffle(uint8_t n)
         Twist(static_cast<Cube::MOVE>(m));
 }
 
-bool Cube::IsSolved()
+bool Cube::IsSolved() const
 {
     return (*this == Cube());
 
