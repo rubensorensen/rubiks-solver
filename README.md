@@ -59,11 +59,11 @@ The rationale for using bit-fields is keeping memory size down and compare times
 
 ## Bit-Fields Visualized
 
-![Bit field visualization](res/img/bit_field_visualization.jpg)
+<img src="res/img/bit_field_visualization.jpg" width="350">
 
 ## Example Of Shuffled Cube Face
 
-![Shuffled face](res/img/shuffled_face.jpg)
+<img src="res/img/shuffled_face.jpg" width="350">
 
 ### Face description
 
