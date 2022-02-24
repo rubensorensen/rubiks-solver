@@ -22,14 +22,13 @@ inline N rol(const N n, const uint8_t d)
 }
 
 Cube::Cube(uint32_t up, uint32_t down, uint32_t front, uint32_t back, uint32_t right, uint32_t left)
-{
-    m_Up    = up;
-    m_Down  = down;
-    m_Front = front;
-    m_Back  = back;
-    m_Right = right;
-    m_Left  = left;
-}
+    : m_Up(up), m_Down(down), m_Front(front), m_Back(back), m_Right(right), m_Left(left)
+{}
+
+Cube::Cube(const Cube& cp)
+    : m_Up(cp.m_Up), m_Down(cp.m_Down), m_Front(cp.m_Front), m_Back(cp.m_Back), m_Right(cp.m_Right),
+      m_Left(cp.m_Left)
+{}
 
 void Cube::Twist(MOVE mv)
 {

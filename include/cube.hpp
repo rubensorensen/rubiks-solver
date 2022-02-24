@@ -75,6 +75,8 @@ class Cube
          uint32_t right = 0x44444444,
          uint32_t left  = 0x55555555);
 
+    Cube(const Cube& cp);  // Copy constructor
+
     void Twist(MOVE mv);
 
     void Dump() const;
@@ -106,7 +108,7 @@ class Cube
     uint32_t m_Right;
     uint32_t m_Left;
 
-    friend class BreadthFirstSearcher;
+    friend class GraphSearcher;
 };
 
 #endif
