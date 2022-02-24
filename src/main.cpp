@@ -1,5 +1,5 @@
 #include "../include/breadth_first_searcher.hpp"
-#include "../include/thistlethwaite.hpp"
+#include "../include/thistlethwaite_solver.hpp"
 
 #include <iostream>
 #include <random>

@@ -1,12 +1,7 @@
-#ifndef THISTLETHWAITE_HPP
-#define THISTLETHWAITE_HPP
+#ifndef THISTLETHWAITE_SOLVER_HPP
+#define THISTLETHWAITE_SOLVER_HPP
 
 #include "breadth_first_searcher.hpp"
-#include "cube.hpp"
-#include "unordered_map"
-
-#include <memory>
-#include <vector>
 
 class ThistlethwaiteSolver
 {
