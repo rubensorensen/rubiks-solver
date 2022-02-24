@@ -10,7 +10,7 @@ Rubik’s cube solver written in C++
 ## Graph Searching Algorithms Implemented
 
 - [x]  Breadth-First Search (BFS)
-- [ ]  Depth-First Search (DFS)
+- [x]  Depth-First Search (DFS)
 - [ ]  Iterative Deepening Depth-First Search (IDDFS)
 
 ## Future Plans
