@@ -15,8 +15,8 @@ class GraphSearcher
 
   public:
 
-    GraphSearcher()  = default;
-    ~GraphSearcher() = default;
+    GraphSearcher()          = default;
+    virtual ~GraphSearcher() = default;
     inline void SetAllowedMoves(const std::vector<Cube::MOVE>& moves) { m_AllowedMoves = moves; }
     inline void SetGoal(bool (*goal)(const Cube& cube)) { GoalIsSatisfied = goal; }
     inline const std::vector<Cube::MOVE>& GetSolution() const { return m_Solution; }
@@ -44,7 +44,7 @@ class GraphSearcher::Vertex : virtual public std::enable_shared_from_this<Vertex
   public:
 
     Vertex(const Cube& cube);
-    ~Vertex();
+    virtual ~Vertex();
 
     inline const Cube& GetCube() const { return m_Cube; }
     inline const std::pair<std::shared_ptr<Vertex>, Cube::MOVE>& GetParent() const
@@ -58,7 +58,7 @@ class GraphSearcher::Vertex : virtual public std::enable_shared_from_this<Vertex
     std::vector<std::shared_ptr<Vertex>> GetNeighbors(std::vector<Cube::MOVE> moves);
     uint32_t GetKey(uint32_t max);
 
-  private:
+  protected:
 
     Cube m_Cube;
     std::pair<std::shared_ptr<Vertex>, Cube::MOVE> m_Parent;
