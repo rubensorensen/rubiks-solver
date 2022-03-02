@@ -31,27 +31,27 @@ A Rubik’s cube consists of multiple cubies. There are 8 corner cubies, contain
 
 The program assumes the following center cubie colors:
 
-| Face | Color |
-| --- | --- |
-| Up | Yellow |
-| Down | White |
-| Front | Green |
-| Back | Blue |
+| Face  | Color  |
+| ----- | ------ |
+| Up    | Yellow |
+| Down  | White  |
+| Front | Green  |
+| Back  | Blue   |
 | Right | Orange |
-| Left | Red |
+| Left  | Red    |
 
 ## Data Structure
 
 In the cube solver a Rubik’s cube is represented as 6 bit-fields, one for each face. Each bit-field is a 32-bit unsigned integer consisting of 8 4-bit values. The four-bit values represent a color:
 
-| Decimal value | Binary value | Color |
-| --- | --- | --- |
-| 0 | 0000 | Yellow |
-| 1 | 0001 | White |
-| 2 | 0010 | Green |
-| 3 | 0011 | Blue |
-| 4 | 0100 | Orange |
-| 5 | 0101 | Red |
+| Decimal value | Binary value | Color  |
+| ------------- | ------------ | ------ |
+| 0             | 0000         | Yellow |
+| 1             | 0001         | White  |
+| 2             | 0010         | Green  |
+| 3             | 0011         | Blue   |
+| 4             | 0100         | Orange |
+| 5             | 0101         | Red    |
 
 Rotations are done using a combination of bit-shifting and bit-masking.
 
@@ -67,6 +67,6 @@ The rationale for using bit-fields is keeping memory size down and compare times
 
 ### Face description
 
-| As string of characters | Hexadecimal | Binary | 32-bit int |
-| --- | --- | --- | --- |
-| RBYRBROG | 53053542 | 0101 0011 0000 0101 0011 0101 0100 0010 | 1392850242 |
+| As string of characters | Hexadecimal | Binary                                  | 32-bit int |
+| ----------------------- | ----------- | --------------------------------------- | ---------- |
+| RBYRBROG                | 53053542    | 0101 0011 0000 0101 0011 0101 0100 0010 | 1392850242 |
